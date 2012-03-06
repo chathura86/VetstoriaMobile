@@ -30,10 +30,14 @@ var Screens = {
 var Cam = {
 	lastPhoto : false,
 	open : function () {
-		navigator.camera.getPicture(Cam.success, Cam.error, {
-			quality: 80, 
-			allowEdit: true
-		});
+		try {
+			navigator.camera.getPicture(Cam.success, Cam.error, {
+				quality: 80, 
+				allowEdit: true
+			});
+		} catch (e) {
+			alert('Device not supported');
+		}
 	},
 	success : function (imageData) {
 		Cam.lastPhoto = "data:image/jpeg;base64," + imageData;

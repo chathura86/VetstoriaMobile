@@ -2,14 +2,23 @@ var Core = {
 	bindEvents : function () {
 		$('.back-button').tap(function () {
 			Screens.back();
+			return false;
 		});
 		
 		$('#screen-login-login').tap(function () {
-			Screens.show('screen-main')
+			Screens.show('screen-main');
+			return false;
 		});
 		
 		$('#screen-main-take-a-photo').tap(function () {
 			Cam.open();
+			return false;
+		});
+	
+		
+		$('#screen-main-my-pets').tap(function () {
+			Screens.show('screen-my-pets');
+			return false;
 		});
 		
 		//page init bindings
