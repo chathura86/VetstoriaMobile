@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <widget xmlns		= "http://www.w3.org/ns/widgets"
-	xmlns:gap		= "http://phonegap.com/ns/1.0"
-	id				= "com.rize.wowwe"
-	version			= "1.0.0">
+	xmlns:gap	= "http://phonegap.com/ns/1.0"
+	id		= "com.phonegap.getting.started"
+	version 	= "1.0.0">
 
-	<name>WowWe Mobile</name>
+	<name>Vetstoria Mobile App</name>
 
 	<description>
-		Wowwe Mobile App
+		Mobile application for Vetstoria
 	</description>
 
-	<author href="http://www.rizedesign.com.au/"
-		email="enquiries@rizedesign.com.au">
-		Rize Design
+	<author href="http://vetstoria.com"
+		email="info@vetstoria.com">
+		Vetstoria Inc
 	</author>
 
 	<gap:platforms>

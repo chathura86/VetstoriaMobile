@@ -1,102 +1,99 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 	<head>
-		<title>Capture Photo</title>
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width" />
 
-		<script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
-		<script type="text/javascript" charset="utf-8">
+		<title>Vetstoria</title>
 
-			var pictureSource;   // picture source
-			var destinationType; // sets the format of returned value 
+		<script src="phonegap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="assets/js/xui.js" type="text/javascript" charset="utf-8"></script>
+		<script src="assets/js/lawnchair/adaptors/LawnchairAdaptorHelpers.js" type="text/javascript" charset="utf-8"></script>
+		<script src="assets/js/lawnchair/adaptors/DOMStorageAdaptor.js" type="text/javascript" charset="utf-8"></script>
+		<script src="assets/js/lawnchair/adaptors/WebkitSQLiteAdaptor.js" type="text/javascript" charset="utf-8"></script>
+		<script src="assets/js/lawnchair/Lawnchair.js" type="text/javascript" charset="utf-8"></script>
+		<!-- <script src="assets/js/dsl.js" type="text/javascript" charset="utf-8"></script>-->
 
-			// Wait for PhoneGap to connect with the device
-			//
-			document.addEventListener("deviceready",onDeviceReady,false);
+		<!-- jQuery mobile-->
+		<link rel="stylesheet" href="assets/js/jquery/jquery.mobile-1.0.1.min.css" />
+		<link rel="stylesheet" href="assets/css/master.css" />
+		<script src="assets/js/jquery/jquery-1.6.4.min.js.js"></script>
 
-			// PhoneGap is ready to be used!
-			//
-			function onDeviceReady() {
-				pictureSource=navigator.camera.PictureSourceType;
-				destinationType=navigator.camera.DestinationType;
-			}
+		<script src="assets/js/helper.js" type="text/javascript" charset="utf-8"></script>
+		<script src="assets/js/app.js" type="text/javascript" charset="utf-8"></script>
 
-			// Called when a photo is successfully retrieved
-			//
-			function onPhotoDataSuccess(imageData) {
-				// Uncomment to view the base64 encoded image data
-				// console.log(imageData);
-
-				// Get image handle
-				//
-				var smallImage = document.getElementById('smallImage');
-
-				// Unhide image elements
-				//
-				smallImage.style.display = 'block';
-
-				// Show the captured photo
-				// The inline CSS rules are used to resize the image
-				//
-				smallImage.src = "data:image/jpeg;base64," + imageData;
-			}
-
-			// Called when a photo is successfully retrieved
-			//
-			function onPhotoURISuccess(imageURI) {
-				// Uncomment to view the image file URI 
-				// console.log(imageURI);
-
-				// Get image handle
-				//
-				var largeImage = document.getElementById('largeImage');
-
-				// Unhide image elements
-				//
-				largeImage.style.display = 'block';
-
-				// Show the captured photo
-				// The inline CSS rules are used to resize the image
-				//
-				largeImage.src = imageURI;
-			}
-
-			// A button will call this function
-			//
-			function capturePhoto() {
-				// Take picture using device camera and retrieve image as base64-encoded string
-				navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 50 });
-			}
-
-			// A button will call this function
-			//
-			function capturePhotoEdit() {
-				// Take picture using device camera, allow edit, and retrieve image as base64-encoded string  
-				navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 20, allowEdit: true }); 
-			}
-
-			// A button will call this function
-			//
-			function getPhoto(source) {
-				// Retrieve image file location from specified source
-				navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50, 
-					destinationType: destinationType.FILE_URI,
-					sourceType: source });
-			}
-
-			// Called if something bad happens.
-			// 
-			function onFail(message) {
-				alert('Failed because: ' + message);
-			}
-
-		</script>
+		<script src="assets/js/jquery/jquery.mobile-1.0.1.min.js"></script>
 	</head>
 	<body>
-		<button onclick="capturePhoto();">Capture Photo</button> <br>
-		<button onclick="capturePhotoEdit();">Capture Editable Photo</button> <br>
-		<button onclick="getPhoto(pictureSource.PHOTOLIBRARY);">From Photo Library</button><br>
-		<button onclick="getPhoto(pictureSource.SAVEDPHOTOALBUM);">From Photo Album</button><br>
-		<img style="display:none;width:60px;height:60px;" id="smallImage" src="" />
-		<img style="display:none;" id="largeImage" src="" />
+		<!-- Start of first page -->
+		<div data-role="page" class="page" id="screen-login">
+			<div data-role="header">
+				<h1>Vetstoria Mobile</h1>
+			</div>
+			<div data-role="content">
+				<div data-role="fieldcontain">
+					<label for="email" class="">Email :</label>
+					<input type="text" name="email" id="email" value="" placeholder="Email"/>
+				</div>
+				<div data-role="fieldcontain">
+					<label for="password" class="">Password :</label>
+					<input type="password" name="password" id="password" value="" placeholder="Password"/>
+				</div>
+				<div data-role="fieldcontain">
+					<label for="remember_me">Remember Me:</label>
+					<select name="remember_me" id="remember_me" data-role="slider">
+						<option value="no">No</option>
+						<option value="yes">Yes</option>
+					</select> 
+				</div>
+				<a href="#" id="screen-login-login" data-role="button">Login</a>
+				<a href="#" id="screen-login-login-fb" data-role="button">Login With Facebook</a>
+			</div>
+		</div>
+		<!-- /page -->
+		
+		<!-- Start of second page -->
+		<div data-role="page" class="page" id="screen-logout">
+			<div data-role="header">
+				<a href="#" class="back-button" data-role="button">Back</a>
+				<h1>Logout</h1>
+			</div>
+			<div data-role="content">
+				
+			</div>
+		</div>
+		<!-- /page -->
+		
+		<!-- Start of second page -->
+		<div data-role="page" class="page" id="screen-main">
+			<div data-role="header">
+				<a href="#" class="back-button" data-role="button">Back</a>
+				<h1>Main Menu</h1>
+				<a href="#screen-logout" class="ui-btn-right" data-icon="">Logout</a>
+			</div>
+			<div data-role="content">
+				<a href="#" id="screen-main-my-pets" data-role="button">My Pets</a>
+				<a href="#" id="screen-main-messages" data-role="button">Messages</a>
+				<a href="#" id="screen-main-vet-updates" data-role="button">Vet Updates (1)</a>
+				<a href="#" id="screen-main-take-a-photo" data-role="button">Take a Photo</a>
+			</div>
+		</div>
+		<!-- /page -->
+		
+		<!-- Start of second page -->
+		<div data-role="page" class="page" id="screen-upload-photo">
+			<div data-role="header">
+				<a href="#" class="back-button" data-role="button">Back</a>
+				<h1>Upload Photo</h1>
+				<a href="#screen-logout" class="ui-btn-right" data-icon="">Logout</a>
+			</div>
+			<div data-role="content">
+				<div class="photo-taken">
+					<span class="frame"><img style="width: 80%" id="cam-photo-thumb" src="assets/img/staticmap.png" /></span>
+				</div>
+				<a href="#" id="screen-upload-photo-save" data-role="button">Save</a>
+				<a href="#" id="screen-upload-photo-back" class="back-button" data-role="button">Cancel</a>
+			</div>
+		</div>
+		<!-- /page -->
 	</body>
 </html>
