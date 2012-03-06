@@ -9,7 +9,7 @@ var Core = {
 		});
 		
 		$('#screen-main-take-a-photo').tap(function () {
-			Screens.show('screen-upload-photo')
+			Cam.open();
 		});
 		
 		//page init bindings

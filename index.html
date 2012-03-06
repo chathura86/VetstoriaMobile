@@ -6,6 +6,7 @@
 		<title>Vetstoria</title>
 
 		<script src="phonegap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="phonegap-1.3.0.js" type="text/javascript" charset="utf-8"></script>
 		<script src="assets/js/xui.js" type="text/javascript" charset="utf-8"></script>
 		<script src="assets/js/lawnchair/adaptors/LawnchairAdaptorHelpers.js" type="text/javascript" charset="utf-8"></script>
 		<script src="assets/js/lawnchair/adaptors/DOMStorageAdaptor.js" type="text/javascript" charset="utf-8"></script>
@@ -71,7 +72,7 @@
 				<a href="#screen-logout" class="ui-btn-right" data-icon="">Logout</a>
 			</div>
 			<div data-role="content">
-				<a href="#" id="screen-main-my-pets" data-role="button">My Pets</a>
+				<a href="#screen-my-pets" id="screen-main-my-pets" data-role="button">My Pets</a>
 				<a href="#" id="screen-main-messages" data-role="button">Messages</a>
 				<a href="#" id="screen-main-vet-updates" data-role="button">Vet Updates (1)</a>
 				<a href="#" id="screen-main-take-a-photo" data-role="button">Take a Photo</a>
@@ -92,6 +93,41 @@
 				</div>
 				<a href="#" id="screen-upload-photo-save" data-role="button">Save</a>
 				<a href="#" id="screen-upload-photo-back" class="back-button" data-role="button">Cancel</a>
+			</div>
+		</div>
+		<!-- /page -->
+		
+		<!-- Start of second page -->
+		<div data-role="page" class="page" id="screen-my-pets">
+			<div data-role="header">
+				<a href="#" class="back-button" data-role="button">Back</a>
+				<h1>My Pets</h1>
+				<a href="#screen-logout" class="ui-btn-right" data-icon="">Logout</a>
+			</div>
+			<div data-role="content">
+				<ul id="my-pets-list" data-role="listview" data-filter="true">
+					<li>
+						<a href="acura.html">
+							<img class="ui-li-thumb" src="assets/img/staticmap.png" /> 
+							<h3>Acura</h3>
+							<p>Example 1</p>
+						</a>
+					</li>
+					<li>
+						<a href="audi.html">
+							<img class="ui-li-thumb" src="assets/img/staticmap.png" /> 
+							<h3>Audi</h3>
+							<p>Example 2</p>
+						</a>
+					</li>
+					<li>
+						<a href="bmw.html">
+							<img class="ui-li-thumb" src="assets/img/staticmap.png" /> 
+							<h3>BMW</h3>
+							<p>Example 3</p>
+						</a>
+					</li>
+				</ul>
 			</div>
 		</div>
 		<!-- /page -->

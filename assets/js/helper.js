@@ -8,7 +8,7 @@ var Screens = {
 		//hide the prev screen
 		if (Screens.current != null)
 			Screens.current.hide();
-		
+
 		//show new screen
 		$.mobile.changePage(target, { reverse : reverse, allowSamePageTransition : false })
 		target.show();
@@ -19,9 +19,11 @@ var Screens = {
 	back : function () {
 		Screens.stack.pop();
 		var screen = Screens.stack.pop();
-		console.log(screen);	
+
 		if (screen && screen.attr('id') !== 'screen-login')
 			Screens.show(screen, true);
+		else
+			Screens.show('screen-main', true);
 	}
 }
 
