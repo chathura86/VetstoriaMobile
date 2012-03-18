@@ -19,13 +19,14 @@
 		<link rel="stylesheet" href="assets/css/master.css" />
 		<script src="assets/js/jquery/jquery-1.6.4.min.js.js"></script>
 
+		<script src="assets/js/api.js" type="text/javascript" charset="utf-8"></script>
 		<script src="assets/js/helper.js" type="text/javascript" charset="utf-8"></script>
 		<script src="assets/js/app.js" type="text/javascript" charset="utf-8"></script>
 
 		<script src="assets/js/jquery/jquery.mobile-1.0.1.min.js"></script>
 	</head>
 	<body>
-		<!-- Start of first page -->
+		<!-- Start of login page -->
 		<div data-role="page" class="page" id="screen-login">
 			<div data-role="header">
 				<h1>Vetstoria Mobile</h1>
@@ -52,7 +53,7 @@
 		</div>
 		<!-- /page -->
 		
-		<!-- Start of second page -->
+		<!-- Start of logout page -->
 		<div data-role="page" class="page" id="screen-logout">
 			<div data-role="header">
 				<a href="#" class="back-button" data-role="button">Back</a>
@@ -64,7 +65,7 @@
 		</div>
 		<!-- /page -->
 		
-		<!-- Start of second page -->
+		<!-- Start of main menu page -->
 		<div data-role="page" class="page" id="screen-main">
 			<div data-role="header">
 				<a href="#" class="back-button" data-role="button">Back</a>
@@ -80,7 +81,7 @@
 		</div>
 		<!-- /page -->
 		
-		<!-- Start of second page -->
+		<!-- Start of photo upload page -->
 		<div data-role="page" class="page" id="screen-upload-photo">
 			<div data-role="header">
 				<a href="#" class="back-button" data-role="button">Back</a>
@@ -97,7 +98,7 @@
 		</div>
 		<!-- /page -->
 		
-		<!-- Start of second page -->
+		<!-- Start of my pet list page -->
 		<div data-role="page" class="page" id="screen-my-pets">
 			<div data-role="header">
 				<a href="#" class="back-button" data-role="button">Back</a>
@@ -105,29 +106,33 @@
 				<a href="#screen-logout" class="ui-btn-right" data-icon="">Logout</a>
 			</div>
 			<div data-role="content">
-				<ul id="my-pets-list" data-role="listview" data-filter="true">
-					<li>
-						<a href="acura.html">
-							<img class="ui-li-thumb" src="assets/img/staticmap.png" /> 
-							<h3>Acura</h3>
-							<p>Example 1</p>
-						</a>
-					</li>
-					<li>
-						<a href="audi.html">
-							<img class="ui-li-thumb" src="assets/img/staticmap.png" /> 
-							<h3>Audi</h3>
-							<p>Example 2</p>
-						</a>
-					</li>
-					<li>
-						<a href="bmw.html">
-							<img class="ui-li-thumb" src="assets/img/staticmap.png" /> 
-							<h3>BMW</h3>
-							<p>Example 3</p>
-						</a>
-					</li>
-				</ul>
+				<ul id="my-pets-list" data-role="listview" data-filter="true"></ul>
+			</div>
+		</div>
+		<!-- /page -->
+		
+		<!-- Start of my pet page -->
+		<div data-role="page" class="page" id="screen-my-pet">
+			<div data-role="header">
+				<a href="#" class="back-button" data-role="button">Back</a>
+				<h1 class="pet-name"></h1>
+				<a href="#screen-logout" class="ui-btn-right" data-icon="">Logout</a>
+			</div>
+			<div data-role="content">
+				<div class="pet-detials">
+					<img style="width: 30%" id="pet-profile-thumb" src="assets/img/placeholder.png" />
+					<span class="pet-profile-details">
+						<span class="bold">DOB : </span><span class="prop-dob"></span> <br />
+						<span class="bold">Breed : </span><span class="prop-breed"></span><br />
+						<span class="bold">Species : </span><span class="prop-species"></span><br />
+						<span class="bold">Sex : </span><span class="prop-sex"></span><br />
+					</span>
+				</div>
+				<div class="pet-links">
+					<a href="#" id="screen-my-pet-vet-updates" data-role="button">Vet Updates</a>
+					<a href="#" id="screen-my-pet-photos" data-role="button">Photos</a>
+					<a href="#" id="screen-my-pet-take-a-photo" data-role="button">Take a Photo</a>
+				</div>
 			</div>
 		</div>
 		<!-- /page -->

@@ -7,9 +7,22 @@
 	width: 100%;
 }
 
-
+.bold{
+	font-weight: bold;
+}
 
 .frame img{
 	border: 1px solid black;
 	box-shadow: 5px 5px 5px #888;
+}
+
+#pet-profile-thumb{
+	width: 40%;
+	display: inline-block;
+}
+
+.pet-profile-details{
+	display: inline-block;
+	width: 50%;
+	margin-left: 10%;
 }

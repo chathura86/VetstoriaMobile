@@ -1,3 +1,38 @@
+String.prototype.lpad = function(padString, length) {
+	var str = this;
+	while (str.length < length)
+	{
+		str = padString + str;
+	}
+
+	return str;
+};
+
+//pads right
+String.prototype.rpad = function(padString, length) {
+	var str = this;
+	while (str.length < length)
+	{
+		str = str + padString;
+	}
+	
+	return str;
+};
+
+String.prototype.ltrim = function () {
+	var re = /\s*((\S+\s*)*)/;
+	return this.replace(re, "$1");
+};
+
+String.prototype.rtrim = function () {
+	var re = /((\s*\S+)*)\s*/;
+	return this.replace(re, "$1");
+};
+
+String.prototype.trim = function () {
+	return this.ltrim().rtrim();
+};
+
 var Screens = {
 	current : null,
 	stack : [],

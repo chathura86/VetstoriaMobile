@@ -22,13 +22,56 @@ var Core = {
 		});
 		
 		//page init bindings
-		$('#screen-upload-photo').live('pageinit', function () {
+		$('#screen-upload-photo').live('pageshow', function () {
 			if (Cam.lastPhoto === false) {
 				Screens.back();
 				return;
 			}
 			
 			Screens.current.find('#cam-photo-thumb').attr('src', Cam.lastPhoto);
+		});
+		
+		$('#screen-my-pets').live('pageinit', function () {
+			Api.getList('mypet', function (response) { 
+				//iterate pets and add to list
+				var list = $('ul#my-pets-list');
+				
+				for (var i in response.data.items)
+				{
+					var pet = response.data.items[i];
+					var a = $('<a/>')
+						.append($('<img/>', { 'class' : "ui-li-thumb",  src : pet.image }))
+						.append($('<h3/>', { text : pet.name.trim() }))
+						.append($('<p/>', { text : "" + pet.species.trim() + " - (" + pet.breed.trim() + ")" }))
+						.click(function () {
+							$('#screen-my-pet').data('pet', pet.id);
+							Screens.show('screen-my-pet');
+							return false;
+						});
+					
+					$('<li/>').append(a).appendTo(list);
+				}
+				
+				list.listview('refresh');
+			});
+		});
+		
+		$('#screen-my-pet').live('pageshow', function () {
+			var self = $(this);
+			
+			if (!self.data('pet')) {
+				Screens.show('screen-my-pets');
+				return false;
+			}
+			
+			Api.get('mypet', self.data('pet'), function (response) {
+				self.find('.pet-name').html(response.data.name);
+				self.find('#pet-profile-thumb').attr('src', MEDIA_PATH + response.data.image);
+				self.find('.prop-dob').html(response.data.dob);
+				self.find('.prop-breed').html(response.data.breed);
+				self.find('.prop-species').html(response.data.species);
+				self.find('.prop-sex').html(response.data.sex);
+			});
 		});
 	}
 }
