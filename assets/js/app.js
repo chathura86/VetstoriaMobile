@@ -6,7 +6,17 @@ var Core = {
 		});
 		
 		$('#screen-login-login').tap(function () {
-			Screens.show('screen-main');
+			var screen = $('#screen-login');
+			var email = screen.find('#email');
+			var password = screen.find('#password');
+			
+			if (!(email.get(0).checkValidity() && password.get(0).checkValidity())) {
+				alert('Invalid username/password');
+				return false;
+			}
+			
+			Api.post('auth', { username : email.val(), password : password.val()}, function () {});
+			//Screens.show('screen-main');
 			return false;
 		});
 		
@@ -40,9 +50,9 @@ var Core = {
 				{
 					var pet = response.data.items[i];
 					var a = $('<a/>')
-						.append($('<img/>', { 'class' : "ui-li-thumb",  src : pet.image }))
-						.append($('<h3/>', { text : pet.name.trim() }))
-						.append($('<p/>', { text : "" + pet.species.trim() + " - (" + pet.breed.trim() + ")" }))
+						.append($('<img/>', {'class' : "ui-li-thumb",  src : pet.image}))
+						.append($('<h3/>', {text : pet.name.trim()}))
+						.append($('<p/>', {text : "" + pet.species.trim() + " - (" + pet.breed.trim() + ")"}))
 						.click(function () {
 							$('#screen-my-pet').data('pet', pet.id);
 							Screens.show('screen-my-pet');

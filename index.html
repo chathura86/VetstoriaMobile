@@ -32,23 +32,25 @@
 				<h1>Vetstoria Mobile</h1>
 			</div>
 			<div data-role="content">
-				<div data-role="fieldcontain">
-					<label for="email" class="">Email :</label>
-					<input type="text" name="email" id="email" value="" placeholder="Email"/>
-				</div>
-				<div data-role="fieldcontain">
-					<label for="password" class="">Password :</label>
-					<input type="password" name="password" id="password" value="" placeholder="Password"/>
-				</div>
-				<div data-role="fieldcontain">
-					<label for="remember_me">Remember Me:</label>
-					<select name="remember_me" id="remember_me" data-role="slider">
-						<option value="no">No</option>
-						<option value="yes">Yes</option>
-					</select> 
-				</div>
-				<a href="#" id="screen-login-login" data-role="button">Login</a>
-				<a href="#" id="screen-login-login-fb" data-role="button">Login With Facebook</a>
+				<form id="screen-login-form">
+					<div data-role="fieldcontain">
+						<label for="email" class="">Email :</label>
+						<input type="email" required name="email" id="email" value="" placeholder="Email"/>
+					</div>
+					<div data-role="fieldcontain">
+						<label for="password" class="">Password :</label>
+						<input type="password" required name="password" id="password" value="" placeholder="Password"/>
+					</div>
+					<div data-role="fieldcontain">
+						<label for="remember_me">Remember Me:</label>
+						<select name="remember_me" id="remember_me" data-role="slider">
+							<option value="no">No</option>
+							<option value="yes">Yes</option>
+						</select> 
+					</div>
+					<a href="#" id="screen-login-login" data-role="button">Login</a>
+					<a href="#" id="screen-login-login-fb" data-role="button">Login With Facebook</a>
+				</form>
 			</div>
 		</div>
 		<!-- /page -->
