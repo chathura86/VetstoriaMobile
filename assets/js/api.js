@@ -2,8 +2,9 @@ var MEDIA_PATH = "http://devmedia.vetstoria.com/";
 var Api = {
 	path : 'http://dev.api.vetstoria.com/rest/',
 	key : 'my-key',
-	getList : function (resource, success) {
-		Api.request(resource, success, 'GET');
+	getList : function (resource, success, data) {
+		data = data || {};
+		Api.request(resource, success, 'GET', data);
 	},
 	get : function (resource, id, success) {
 		Api.request(resource + '/' + id, success, 'GET');
@@ -11,6 +12,9 @@ var Api = {
 	post : function (resource, data, success, error) {
 		error = error || false;
 		Api.request(resource, success, 'POST', data);
+	},
+	del : function (resource, success) {
+		Api.request(resource, success, 'DELETE');
 	},
 	request : function (resource, success, type, data, error) {
 		type = type || 'GET';
@@ -21,22 +25,20 @@ var Api = {
 
 		$.ajax({
 			url: Api.path + resource + '?format=json',
-			data : JSON.stringify(data),
+			data : type == 'GET' ? data : JSON.stringify(data),
 			success: success,
 			error : error,
 			crossDomain: true,
 			type: type,
 			success: success,
-			error : error,
 			dataType : 'json',
 			jsonpCallback: 'callback',
 			jsonp: "jsonp-callback",
 			contentType : 'application/json',
 			accept : 'application/json',
-			beforeSend: function(x) {
-				if (x && x.overrideMimeType) {
-					x.overrideMimeType("application/json;charset=UTF-8");
-				}
+			headers: {
+				"API-TOKEN": Data.token,
+				"API-KEY": "7920662156744a67273e6b5e7d"
 			}
 		});
 	},

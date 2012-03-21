@@ -24,6 +24,12 @@
 		<script src="assets/js/app.js" type="text/javascript" charset="utf-8"></script>
 
 		<script src="assets/js/jquery/jquery.mobile-1.0.1.min.js"></script>
+		
+		<!-- photo gallery -->
+		<link href="assets/css/photoswipe.css" type="text/css" rel="stylesheet" />
+	
+		<script type="text/javascript" src="assets/js/klass.min.js"></script>
+		<script type="text/javascript" src="assets/js/code.photoswipe.jquery-3.0.4.min.js"></script>
 	</head>
 	<body>
 		<!-- Start of login page -->
@@ -62,7 +68,9 @@
 				<h1>Logout</h1>
 			</div>
 			<div data-role="content">
-				
+				<p>Are you sure you want to logout?</p>
+				<a href="#" id="screen-logout-yes" data-role="button">Yes</a>
+				<a href="#" id="screen-logout-no" data-role="button">No</a>
 			</div>
 		</div>
 		<!-- /page -->
@@ -135,6 +143,32 @@
 					<a href="#" id="screen-my-pet-photos" data-role="button">Photos</a>
 					<a href="#" id="screen-my-pet-take-a-photo" data-role="button">Take a Photo</a>
 				</div>
+			</div>
+		</div>
+		<!-- /page -->
+		
+		<!-- Start of my pet page -->
+		<div data-role="page" class="page" id="screen-my-pet-albums">
+			<div data-role="header">
+				<a href="#" class="back-button" data-role="button">Back</a>
+				<h1 class="pet-name">Albums</h1>
+				<a href="#screen-logout" class="ui-btn-right" data-icon="">Logout</a>
+			</div>
+			<div data-role="content">
+				<ul id="my-pet-albums-list" data-role="listview" data-filter="true"></ul>
+			</div>
+		</div>
+		<!-- /page -->
+		
+		<!-- Start of my pet page -->
+		<div data-role="page" data-add-back-btn="true" id="screen-my-pet-album" class="gallery-page">
+			<div data-role="header">
+				<a href="#" class="back-button" data-role="button">Back</a>
+				<h1 class="album-name"></h1>
+				<a href="#screen-logout" class="ui-btn-right" data-icon="">Logout</a>
+			</div>
+			<div data-role="content">
+				<ul id="my-pet-album-gallery" class="gallery"></ul>
 			</div>
 		</div>
 		<!-- /page -->

@@ -1,5 +1,17 @@
+var Data = {
+	token : null
+}
 var Core = {
 	bindEvents : function () {
+		$('.page').live('pageinit', function () {
+			//redirect to login if not logged in
+			if (Data.token === null) {
+				Core.logout();
+				
+				return false;
+			}
+		});
+		
 		$('.back-button').tap(function () {
 			Screens.back();
 			return false;
@@ -15,8 +27,16 @@ var Core = {
 				return false;
 			}
 			
-			Api.post('auth', { username : email.val(), password : password.val()}, function () {});
-			//Screens.show('screen-main');
+			Api.post('auth', {username : email.val(), password : password.val()}, function (response) {
+				if (response.success){
+					Data.token = response.data.token;
+					email.val('');
+					password.val('');
+					Screens.show('screen-main');
+				} else {
+					alert ('Invalid username/password');
+				}
+			});
 			return false;
 		});
 		
@@ -39,6 +59,18 @@ var Core = {
 			}
 			
 			Screens.current.find('#cam-photo-thumb').attr('src', Cam.lastPhoto);
+		});
+		
+		$('#screen-logout').live('pageinit', function () {
+			var self = $(this);
+			self.find('#screen-logout-yes').click(function () {
+				Core.logout();
+			});
+			
+			self.find('#screen-logout-no').click(function () {
+				Screens.back();
+				return false;
+			});
 		});
 		
 		$('#screen-my-pets').live('pageinit', function () {
@@ -82,6 +114,86 @@ var Core = {
 				self.find('.prop-species').html(response.data.species);
 				self.find('.prop-sex').html(response.data.sex);
 			});
+			
+			self.find('#screen-my-pet-photos').click(function () {
+				$('#screen-my-pet-albums').data('pet', self.data('pet'));
+				Screens.show('screen-my-pet-albums');
+				return false;
+			});
+		});
+		
+		$('#screen-my-pet-albums').live('pageshow', function () {
+			var self = $(this);
+			
+			if (!self.data('pet')) {
+				Screens.show('screen-my-pets');
+				return false;
+			}
+			
+			Api.getList('album', function (response) {
+				//iterate albums and add to list
+				var list = $('ul#my-pet-albums-list');
+				
+				for (var i in response.data.items)
+				{
+					var album = response.data.items[i];
+					var a = $('<a/>')
+						.append($('<img/>', {'class' : "ui-li-thumb",  src : MEDIA_PATH + album.photos[0].file}))
+						.append($('<h3/>', {text : album.name.trim()}))
+						.append($('<p/>', {text : "" + album.posted_date.trim() + " (" + album.view_count.trim() + ") Views"}))
+						.click(function () {
+							$('#screen-my-pet-album').data('album', album.id);
+							Screens.show('screen-my-pet-album');
+							return false;
+						});
+					
+					$('<li/>').append(a).appendTo(list);
+				}
+				
+				list.listview('refresh');
+			}, {pet : self.data('pet')});
+		});
+		
+		$('#screen-my-pet-album').live('pageshow', function(e){
+			var self = $(this);
+			Api.get('album', 38, function (response) {
+				if (response.success) {
+					for (var i in response.data.photos) {
+						var photo = $('<li><a href="" rel="external"><img src="" alt="" /></a></li>');
+						photo.find('a').attr('href', MEDIA_PATH + response.data.photos[i].file);
+						photo.find('img')
+							.attr('src', MEDIA_PATH + response.data.photos[i].file)
+							.attr('alt', response.data.name);
+							
+						photo.appendTo(self.find('#my-pet-album-gallery'));
+					}
+					var	options = {};
+					var	photoSwipeInstance = $("ul.gallery a", e.target).photoSwipe(options,  self.attr('id'));
+				}
+			});
+			
+			return true;
+
+		})
+		.live('pagehide', function(e){
+			var currentPage = $(e.target);
+			var	photoSwipeInstance = PhotoSwipe.getInstance(currentPage.attr('id'));
+
+			if (typeof photoSwipeInstance != "undefined" && photoSwipeInstance != null) {
+				PhotoSwipe.detatch(photoSwipeInstance);
+			}
+
+			return true;
+		});
+	},
+	login : function (data) {
+		
+	},
+	logout : function () {
+		Api.del('auth', function () {
+			Data.token = null,
+			Screens.stack = [];
+			Screens.show('screen-login');
 		});
 	}
 }
