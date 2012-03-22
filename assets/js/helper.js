@@ -41,12 +41,12 @@ var Screens = {
 		reverse = reverse || false
 
 		//hide the prev screen
-		if (Screens.current != null)
-			Screens.current.hide();
+//		if (Screens.current != null)
+//			Screens.current.hide();
 
 		//show new screen
 		$.mobile.changePage(target, { reverse : reverse, allowSamePageTransition : false })
-		target.show();
+//		target.show();
 
 		//set the cuurent to new screen
 		Screens.current = target;

@@ -147,7 +147,7 @@
 		</div>
 		<!-- /page -->
 		
-		<!-- Start of my pet page -->
+		<!-- Start of my pet albums -->
 		<div data-role="page" class="page" id="screen-my-pet-albums">
 			<div data-role="header">
 				<a href="#" class="back-button" data-role="button">Back</a>
@@ -160,8 +160,8 @@
 		</div>
 		<!-- /page -->
 		
-		<!-- Start of my pet page -->
-		<div data-role="page" data-add-back-btn="true" id="screen-my-pet-album" class="gallery-page">
+		<!-- Start of my pet album -->
+		<div data-role="page" data-add-back-btn="true" id="screen-my-pet-album" class="page gallery-page">
 			<div data-role="header">
 				<a href="#" class="back-button" data-role="button">Back</a>
 				<h1 class="album-name"></h1>
@@ -169,6 +169,25 @@
 			</div>
 			<div data-role="content">
 				<ul id="my-pet-album-gallery" class="gallery"></ul>
+			</div>
+		</div>
+		<!-- /page -->
+		
+		<!-- Start of my pet album edit -->
+		<div data-role="page" data-add-back-btn="true" id="screen-my-pet-album-edit" class="page gallery-page">
+			<div data-role="header">
+				<a href="#" class="back-button" data-role="button">Back</a>
+				<h1 class="album-name"></h1>
+				<a href="#screen-logout" class="ui-btn-right" data-icon="">Logout</a>
+			</div>
+			<div data-role="content">
+				<ul id="my-pet-album-gallery-edit" class="gallery"></ul>
+				<div class="edit-album-links">
+					<a href="#" id="screen-my-pet-album-edit-delete-album" data-role="button">Delete Album</a>
+					<a href="#" id="screen-my-pet-album-edit-take-a-photo" data-role="button">Take a Photo</a>
+					<a href="#" id="screen-my-pet-album-edit-browse" data-role="button">Browse Photos</a>
+					<a href="#" id="screen-my-pet-album-edit-sharing" data-role="button">Sharing</a>
+				</div>
 			</div>
 		</div>
 		<!-- /page -->

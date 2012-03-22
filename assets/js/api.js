@@ -13,7 +13,8 @@ var Api = {
 		error = error || false;
 		Api.request(resource, success, 'POST', data);
 	},
-	del : function (resource, success) {
+	del : function (resource, id, success) {
+		resource = resource + '/' + id;
 		Api.request(resource, success, 'DELETE');
 	},
 	request : function (resource, success, type, data, error) {

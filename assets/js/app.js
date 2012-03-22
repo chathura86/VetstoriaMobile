@@ -12,6 +12,12 @@ var Core = {
 			}
 		});
 		
+		$('.page').live('pageshow', function () {
+			//keep the old one on the stack
+			Screens.stack.push($(this));
+			return true;
+		})
+		
 		$('.back-button').tap(function () {
 			Screens.back();
 			return false;
@@ -134,20 +140,32 @@ var Core = {
 				//iterate albums and add to list
 				var list = $('ul#my-pet-albums-list');
 				
+				//remove prev list
+				list.find('li').remove();
+				
 				for (var i in response.data.items)
 				{
 					var album = response.data.items[i];
-					var a = $('<a/>')
+					var link = $('<a/>')
 						.append($('<img/>', {'class' : "ui-li-thumb",  src : MEDIA_PATH + album.photos[0].file}))
 						.append($('<h3/>', {text : album.name.trim()}))
 						.append($('<p/>', {text : "" + album.posted_date.trim() + " (" + album.view_count.trim() + ") Views"}))
+						.data('album', album.id)
 						.click(function () {
-							$('#screen-my-pet-album').data('album', album.id);
+							$('#screen-my-pet-album').data('album', $(this).data('album'));
 							Screens.show('screen-my-pet-album');
 							return false;
 						});
-					
-					$('<li/>').append(a).appendTo(list);
+						
+					var edit = $('<a/>')
+						.attr('data-icon', 'gear')
+						.data('album', album.id)
+						.click(function () {
+							$('#screen-my-pet-album-edit').data('album', $(this).data('album'));
+							Screens.show('screen-my-pet-album-edit');
+							return false;
+						});
+					$('<li/>').append(link).append(edit).appendTo(list);
 				}
 				
 				list.listview('refresh');
@@ -156,7 +174,7 @@ var Core = {
 		
 		$('#screen-my-pet-album').live('pageshow', function(e){
 			var self = $(this);
-			Api.get('album', 38, function (response) {
+			Api.get('album', self.data('album'), function (response) {
 				if (response.success) {
 					for (var i in response.data.photos) {
 						var photo = $('<li><a href="" rel="external"><img src="" alt="" /></a></li>');
@@ -177,20 +195,69 @@ var Core = {
 		})
 		.live('pagehide', function(e){
 			var currentPage = $(e.target);
-			var	photoSwipeInstance = PhotoSwipe.getInstance(currentPage.attr('id'));
+			var	photoSwipeInstance = window.Code.PhotoSwipe.getInstance(currentPage.attr('id'));
 
 			if (typeof photoSwipeInstance != "undefined" && photoSwipeInstance != null) {
-				PhotoSwipe.detatch(photoSwipeInstance);
+				window.Code.PhotoSwipe.detatch(photoSwipeInstance);
 			}
 
+			//remove all the photos
+			currentPage.find('#my-pet-album-gallery li').remove();
+
 			return true;
+		});
+		
+		
+		$('#screen-my-pet-album-edit').live('pageshow', function () {
+			var self = $(this);
+			//remove prev list
+			$('#my-pet-album-gallery-edit').find('li').remove();
+			
+			Api.get('album', self.data('album'), function (response) {
+				if (response.success) {
+					for (var i in response.data.photos) {
+						var photo = $('<li><a href="javascript;" rel="external"><img src="" alt="" /></a></li>');
+						photo.find('a')
+							.data('photo', response.data.photos[i].id)
+							.click(function () {
+								//confimr delete
+								if (confirm("Are you sure you want to delete this pgoto?")) {
+									Api.del('photo', $(this).data('photo'), function (response) {
+										if (response.success)
+											photo.remove();
+									});
+								}
+								
+								return false;
+							});
+						photo.find('img')
+							.attr('src', MEDIA_PATH + response.data.photos[i].file)
+							.attr('alt', response.data.name);
+							
+						photo.appendTo(self.find('#my-pet-album-gallery-edit'));
+					}
+				}
+			});
+		});
+		
+		$('#screen-my-pet-album-edit').live('pageinit', function () {
+			var self = $(this);
+			self.find('#screen-my-pet-album-edit-delete-album').click(function () {
+				//confimr delete
+				if (confirm("Are you sure you want to delete this album?")) {
+					Api.del('album', self.data('album'), function (response) {
+						if (response.success)
+							Screens.back();
+					});
+				}
+			});
 		});
 	},
 	login : function (data) {
 		
 	},
 	logout : function () {
-		Api.del('auth', function () {
+		Api.del('auth', '', function () {
 			Data.token = null,
 			Screens.stack = [];
 			Screens.show('screen-login');
@@ -210,8 +277,7 @@ $( document ).bind( "mobileinit", function() {
 });
 
 $( document ).bind( "pagechange", function() {
-	//keep the old one on the stack
-	Screens.stack.push($.mobile.activePage);
+	
 });
 
 document.addEventListener("deviceready", onDeviceReady, false);
