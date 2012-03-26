@@ -64,7 +64,7 @@ var Core = {
 				return;
 			}
 			
-			Screens.current.find('#cam-photo-thumb').attr('src', Cam.lastPhoto);
+			Screens.current.find('#cam-photo-thumb').attr('src', "data:image/jpeg;base64," + Cam.lastPhoto);
 		});
 		
 		$('#screen-logout').live('pageinit', function () {
@@ -250,6 +250,18 @@ var Core = {
 							Screens.back();
 					});
 				}
+				
+				return false;
+			});
+			
+			self.find('#screen-my-pet-album-edit-take-a-photo').click(function () {
+				Cam.open();
+				return false;
+			});
+			
+			self.find('#screen-my-pet-album-edit-browse').click(function () {
+				Cam.select();
+				return false;
 			});
 		});
 	},

@@ -68,14 +68,28 @@ var Cam = {
 		try {
 			navigator.camera.getPicture(Cam.success, Cam.error, {
 				quality: 80, 
-				allowEdit: true
+				allowEdit: true,
+				sourceType : Camera.PictureSourceType.CAMERA, 
+				destinationType : Camera.DestinationType.DATA_URL
+			});
+		} catch (e) {
+			alert('Device not supported');
+		}
+	},
+	select : function () {
+		try {
+			navigator.camera.getPicture(Cam.success, Cam.error, {
+				quality: 80, 
+				allowEdit: false,
+				sourceType : Camera.PictureSourceType.PHOTOLIBRARY,
+				destinationType : Camera.DestinationType.DATA_URL
 			});
 		} catch (e) {
 			alert('Device not supported');
 		}
 	},
 	success : function (imageData) {
-		Cam.lastPhoto = "data:image/jpeg;base64," + imageData;
+		Cam.lastPhoto = imageData;
 		
 		//hoto image preview window
 		Screens.show('screen-upload-photo');
