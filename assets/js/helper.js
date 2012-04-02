@@ -63,8 +63,12 @@ var Screens = {
 }
 
 var Cam = {
+	data : {},
 	lastPhoto : false,
-	open : function () {
+	open : function (data) {
+		data = data || {};
+		Cam.data = data;
+		
 		try {
 			navigator.camera.getPicture(Cam.success, Cam.error, {
 				quality: 80, 
@@ -76,7 +80,10 @@ var Cam = {
 			alert('Device not supported');
 		}
 	},
-	select : function () {
+	select : function (data) {
+		data = data || {};
+		Cam.data = data;
+		
 		try {
 			navigator.camera.getPicture(Cam.success, Cam.error, {
 				quality: 80, 
@@ -91,7 +98,7 @@ var Cam = {
 	success : function (imageData) {
 		Cam.lastPhoto = imageData;
 		
-		//hoto image preview window
+		//photo image preview window
 		Screens.show('screen-upload-photo');
 		
 	},

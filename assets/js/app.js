@@ -65,6 +65,8 @@ var Core = {
 			}
 			
 			Screens.current.find('#cam-photo-thumb').attr('src', "data:image/jpeg;base64," + Cam.lastPhoto);
+			
+			alert(Cam.data.pet);
 		});
 		
 		$('#screen-logout').live('pageinit', function () {
@@ -255,12 +257,12 @@ var Core = {
 			});
 			
 			self.find('#screen-my-pet-album-edit-take-a-photo').click(function () {
-				Cam.open();
+				Cam.open({ album : self.data('album') });
 				return false;
 			});
 			
 			self.find('#screen-my-pet-album-edit-browse').click(function () {
-				Cam.select();
+				Cam.select({ album : self.data('album') });
 				return false;
 			});
 		});
