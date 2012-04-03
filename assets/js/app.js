@@ -58,15 +58,105 @@ var Core = {
 		});
 		
 		//page init bindings
+		$('#screen-upload-photo').live('pageinit', function () {
+			$('#screen-upload-photo-save').tap(function () {
+				var album = $('select#screen-upload-photo-select-album').val();
+				var pet = $('select#screen-upload-photo-select-pet').val();
+				
+				if (album > 0) {
+					Api.post('photo', {album : album, photo : Cam.lastPhoto}, function (response) {
+						$('#screen-my-pet').data('pet', pet);
+						$('#screen-my-pet-album').data('album', album);
+						Screens.show('screen-my-pet-album');
+					});
+				} else {
+					alert('Please select an album');
+					return false;
+				}
+			});
+		});
+		
 		$('#screen-upload-photo').live('pageshow', function () {
-			if (Cam.lastPhoto === false) {
-				Screens.back();
-				return;
-			}
+//			if (Cam.lastPhoto === false) {
+//				Screens.back();
+//				return;
+//			}
 			
 			Screens.current.find('#cam-photo-thumb').attr('src', "data:image/jpeg;base64," + Cam.lastPhoto);
 			
-			alert(Cam.data.pet);
+			var updateAlbumsList = function (pet) {
+				var list = $('select#screen-upload-photo-select-album');
+				list.empty();
+				list.append('<option value="0" data-placeholder="true">Choose an album...</option>');
+				list.val(0);
+				
+				list.change(function () {
+					var selected = $(this).val();
+					if (selected > 0){
+						$('#screen-upload-photo-save').removeAttr('disabled');
+					} else {
+						$('#screen-upload-photo-save').attr('disabled', true);
+					}
+				})
+				
+				Api.getList('album', function (response) {
+					list.selectmenu('enable');
+					for (var i in response.data.items)
+					{
+						var album = response.data.items[i];
+						$('<option/>')
+							.attr('value', album.id)
+							.text(album.name.trim())
+							.appendTo(list)
+					}
+
+					list.selectmenu('refresh');
+
+					//select a pet if possible
+					if (Cam.data.album > 0)
+					{
+						list.val(Cam.data.album);
+						$('#screen-upload-photo-save').removeAttr('disabled');
+					}
+					
+				}, {pet : pet});
+			}
+
+			//lodaing pets
+			Api.getList('mypet', function (response) { 
+				var list = $('select#screen-upload-photo-select-pet');
+				list.empty();
+				list.append('<option value="0" data-placeholder="true">Choose a pet...</option>');
+				list.val(0);
+				
+				list.change(function () {
+					var selected = $(this).val();
+					if (selected > 0){
+						updateAlbumsList(selected);
+					} else {
+						$('select#screen-upload-photo-select-album').selectmenu('disable');
+					}
+				});
+				
+				for (var i in response.data.items)
+				{
+					var pet = response.data.items[i];
+					$('<option/>')
+						.attr('value', pet.id)
+						.text(pet.name + " " + pet.species.trim())
+						.appendTo(list)
+				}
+				
+				list.selectmenu('refresh');
+				
+				//select a pet if possible
+				if (Cam.data.pet > 0) {
+					list.val(Cam.data.pet);
+					updateAlbumsList(Cam.data.pet);
+				} else {
+					$('select#screen-upload-photo-select-album').selectmenu('disable');
+				}
+			});
 		});
 		
 		$('#screen-logout').live('pageinit', function () {
@@ -257,12 +347,12 @@ var Core = {
 			});
 			
 			self.find('#screen-my-pet-album-edit-take-a-photo').click(function () {
-				Cam.open({ album : self.data('album') });
+				Cam.open({album : self.data('album')});
 				return false;
 			});
 			
 			self.find('#screen-my-pet-album-edit-browse').click(function () {
-				Cam.select({ album : self.data('album') });
+				Cam.select({album : self.data('album')});
 				return false;
 			});
 		});
@@ -288,6 +378,7 @@ $( document ).bind( "mobileinit", function() {
 	// Make your jQuery Mobile framework configuration changes here!
 	$.support.cors = true;
 	$.mobile.allowCrossDomainPages = true;
+	$.mobile.selectmenu.prototype.options.nativeMenu = false;
 });
 
 $( document ).bind( "pagechange", function() {
