@@ -272,7 +272,7 @@ var Core = {
 						var photo = $('<li><a href="" rel="external"><img src="" alt="" /></a></li>');
 						photo.find('a').attr('href', MEDIA_PATH + response.data.photos[i].file);
 						photo.find('img')
-							.attr('src', MEDIA_PATH + response.data.photos[i].file)
+							.attr('src', Server + '/service/imageresize/?image=' + MEDIA_PATH + response.data.photos[i].file)
 							.attr('alt', response.data.name);
 							
 						photo.appendTo(self.find('#my-pet-album-gallery'));
@@ -323,7 +323,7 @@ var Core = {
 								return false;
 							});
 						photo.find('img')
-							.attr('src', MEDIA_PATH + response.data.photos[i].file)
+							.attr('src', Server + '/service/imageresize/?image=' + MEDIA_PATH + response.data.photos[i].file)
 							.attr('alt', response.data.name);
 							
 						photo.appendTo(self.find('#my-pet-album-gallery-edit'));

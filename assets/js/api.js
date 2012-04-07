@@ -1,6 +1,7 @@
 var MEDIA_PATH = "http://devmedia.vetstoria.com/";
+var Server = 'http://chat.brinkdev.com';
 var Api = {
-	path : 'http://dev.api.vetstoria.com/rest/',
+	path : Server + '/rest/',
 	key : 'my-key',
 	getList : function (resource, success, data) {
 		data = data || {};
