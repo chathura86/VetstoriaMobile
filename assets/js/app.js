@@ -57,6 +57,12 @@ var Core = {
 			return false;
 		});
 		
+		$('#screen-main').live('pageshow', function () {
+			Api.getList('message', function (response) {
+				$('#screen-main-message-count').text(response.data.unreaded);
+			});
+		});
+		
 		//page init bindings
 		$('#screen-upload-photo').live('pageinit', function () {
 			$('#screen-upload-photo-save').tap(function () {
@@ -67,6 +73,7 @@ var Core = {
 					Api.post('photo', {album : album, photo : Cam.lastPhoto}, function (response) {
 						$('#screen-my-pet').data('pet', pet);
 						$('#screen-my-pet-album').data('album', album);
+						Cam.lastPhoto = false;
 						Screens.show('screen-my-pet-album');
 					});
 				} else {
@@ -77,10 +84,10 @@ var Core = {
 		});
 		
 		$('#screen-upload-photo').live('pageshow', function () {
-//			if (Cam.lastPhoto === false) {
-//				Screens.back();
-//				return;
-//			}
+			if (Cam.lastPhoto === false) {
+				Screens.back();
+				return;
+			}
 			
 			Screens.current.find('#cam-photo-thumb').attr('src', "data:image/jpeg;base64," + Cam.lastPhoto);
 			
@@ -116,6 +123,7 @@ var Core = {
 					if (Cam.data.album > 0)
 					{
 						list.val(Cam.data.album);
+						list.selectmenu('refresh');
 						$('#screen-upload-photo-save').removeAttr('disabled');
 					}
 					
@@ -152,6 +160,7 @@ var Core = {
 				//select a pet if possible
 				if (Cam.data.pet > 0) {
 					list.val(Cam.data.pet);
+					list.selectmenu('refresh');
 					updateAlbumsList(Cam.data.pet);
 				} else {
 					$('select#screen-upload-photo-select-album').selectmenu('disable');
@@ -196,7 +205,23 @@ var Core = {
 			});
 		});
 		
-		$('#screen-my-pet').live('pageshow', function () {
+		$('#screen-my-pet')
+		.live('pageinit', function () {
+			var self = $(this);
+			self.find('#screen-my-pet-photos').click(function () {
+				$('#screen-my-pet-albums').data('pet', self.data('pet'));
+				Screens.show('screen-my-pet-albums');
+				return false;
+			});
+			
+			self.find('#screen-my-pet-take-a-photo').click(function () {
+				Cam.open({
+					pet : self.data('pet')
+				});
+				return false;
+			});
+		})
+		.live('pageshow', function () {
 			var self = $(this);
 			
 			if (!self.data('pet')) {
@@ -213,11 +238,6 @@ var Core = {
 				self.find('.prop-sex').html(response.data.sex);
 			});
 			
-			self.find('#screen-my-pet-photos').click(function () {
-				$('#screen-my-pet-albums').data('pet', self.data('pet'));
-				Screens.show('screen-my-pet-albums');
-				return false;
-			});
 		});
 		
 		$('#screen-my-pet-albums').live('pageshow', function () {
@@ -347,12 +367,18 @@ var Core = {
 			});
 			
 			self.find('#screen-my-pet-album-edit-take-a-photo').click(function () {
-				Cam.open({album : self.data('album')});
+				Cam.open({
+					pet : $('#screen-my-pet').data('pet'),
+					album : self.data('album')
+				});
 				return false;
 			});
 			
 			self.find('#screen-my-pet-album-edit-browse').click(function () {
-				Cam.select({album : self.data('album')});
+				Cam.select({
+					pet : $('#screen-my-pet').data('pet'),
+					album : self.data('album')
+				});
 				return false;
 			});
 		});
@@ -386,3 +412,4 @@ $( document ).bind( "pagechange", function() {
 });
 
 document.addEventListener("deviceready", onDeviceReady, false);
+

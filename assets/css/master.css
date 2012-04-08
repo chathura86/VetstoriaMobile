@@ -33,3 +33,5 @@
 .gallery li a { display: block; margin: 5px; border: 1px solid #3c3c3c; }
 .gallery li img { display: block; width: 100%; height: auto; }
 #Gallery1 .ui-content, #Gallery2 .ui-content { overflow: hidden; }
+
+a.ui-li-has-count span span.ui-btn-text{ padding-right:0; position:static; }

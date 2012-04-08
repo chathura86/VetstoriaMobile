@@ -64,7 +64,7 @@ var Screens = {
 
 var Cam = {
 	data : {},
-	lastPhoto : false,
+	lastPhoto : 'asdasasd',
 	open : function (data) {
 		data = data || {};
 		Cam.data = data;
@@ -83,7 +83,7 @@ var Cam = {
 	select : function (data) {
 		data = data || {};
 		Cam.data = data;
-		
+
 		try {
 			navigator.camera.getPicture(Cam.success, Cam.error, {
 				quality: 80, 
