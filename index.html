@@ -65,6 +65,7 @@
 			<div data-role="header">
 				<a href="#" class="back-button" data-role="button">Back</a>
 				<h1>Logout</h1>
+				<a href="#" data-icon="home" data-iconpos="notext" class="home-button ui-btn-right" data-direction="reverse">Home</a>
 			</div>
 			<div data-role="content">
 				<p>Are you sure you want to logout?</p>
@@ -79,13 +80,14 @@
 			<div data-role="header">
 				<a href="#" class="back-button" data-role="button">Back</a>
 				<h1>Main Menu</h1>
-				<a href="#screen-logout" class="ui-btn-right" data-icon="">Logout</a>
+				<a href="#" data-icon="home" data-iconpos="notext" class="home-button ui-btn-right" data-direction="reverse">Home</a>
 			</div>
 			<div data-role="content">
 				<a href="#" id="screen-main-my-pets" data-role="button">My Pets</a>
 				<a href="#" id="screen-main-messages" data-role="button" class="ui-li-has-count">Messages <span id="screen-main-message-count" class="ui-li-count ui-btn-up-c ui-btn-corner-all">0</span></a>
 				<a href="#" id="screen-main-vet-updates" data-role="button" class="ui-li-has-count">Vet Updates <span id="screen-main-vets-update-count" class="ui-li-count ui-btn-up-c ui-btn-corner-all">0</span></a>
 				<a href="#" id="screen-main-take-a-photo" data-role="button">Take a Photo</a>
+				<a href="#" id="screen-main-logout" data-role="button">Logout</a>
 			</div>
 		</div>
 		<!-- /page -->
@@ -95,7 +97,7 @@
 			<div data-role="header">
 				<a href="#" class="back-button" data-role="button">Back</a>
 				<h1>Upload Photo</h1>
-				<a href="#screen-logout" class="ui-btn-right" data-icon="">Logout</a>
+				<a href="#" data-icon="home" data-iconpos="notext" class="home-button ui-btn-right" data-direction="reverse">Home</a>
 			</div>
 			<div data-role="content">
 				<div class="photo-taken">
@@ -124,7 +126,7 @@
 			<div data-role="header">
 				<a href="#" class="back-button" data-role="button">Back</a>
 				<h1>My Pets</h1>
-				<a href="#screen-logout" class="ui-btn-right" data-icon="">Logout</a>
+				<a href="#" data-icon="home" data-iconpos="notext" class="home-button ui-btn-right" data-direction="reverse">Home</a>
 			</div>
 			<div data-role="content">
 				<ul id="my-pets-list" data-role="listview" data-filter="true"></ul>
@@ -137,7 +139,7 @@
 			<div data-role="header">
 				<a href="#" class="back-button" data-role="button">Back</a>
 				<h1>New Album</h1>
-				<a href="#screen-logout" class="ui-btn-right" data-icon="">Logout</a>
+				<a href="#" data-icon="home" data-iconpos="notext" class="home-button ui-btn-right" data-direction="reverse">Home</a>
 			</div>
 			<div data-role="content">
 				<form id="screen-create-album-form">
@@ -156,27 +158,35 @@
 			<div data-role="header">
 				<a href="#" class="back-button" data-role="button">Back</a>
 				<h1>Share Album</h1>
-				<a href="#screen-logout" class="ui-btn-right" data-icon="">Logout</a>
+				<a href="#" data-icon="home" data-iconpos="notext" class="home-button ui-btn-right" data-direction="reverse">Home</a>
 			</div>
 			<div data-role="content">
 				<form id="screen-share-album-form">
 					<div data-role="fieldcontain">
 						<fieldset data-role="controlgroup">
 							<legend>Share Within Vetstoria</legend>
-							<input type="checkbox" name="checkbox-0" id="checkbox-0" class="custom" />
-							<label for="checkbox-0">Share with all users registered on Vetstoria.</label>
-							<input type="checkbox" name="checkbox-1" id="checkbox-1" class="custom" />
-							<label for="checkbox-1">Share with all your friends and vets on Vetstoria.</label>
-							<input type="checkbox" name="checkbox-2" id="checkbox-2" class="custom" />
-							<label for="checkbox-2">Share the album with specific friends on Vetstoria selected below.</label>
+							<input type="checkbox" name="share_all_in_vets" id="share_all_in_vets" class="custom" />
+							<label for="share_all_in_vets">Share with all users registered on Vetstoria.</label>
+							<input type="checkbox" name="share_all_friends" id="share_all_friends" class="custom" />
+							<label for="share_all_friends">Share with all your friends and vets on Vetstoria.</label>
+							<input type="checkbox" name="share_selected_friends" id="share_selected_friends" class="custom" />
+							<label for="share_selected_friends">Share the album with specific friends on Vetstoria selected below.</label>
+						</fieldset>
+						
+						<fieldset data-role="controlgroup">
+							<legend>Your friends</legend>
 						</fieldset>
 						
 						<fieldset data-role="controlgroup">
 							<legend>Share Outside Of Vetstoria</legend>
-							<input type="checkbox" name="checkbox-3" id="checkbox-3" class="custom" />
-							<label for="checkbox-3">Share on facebook.</label>
-							<input type="checkbox" name="checkbox-4" id="checkbox-4" class="custom" />
-							<label for="checkbox-4">Share with other friends via email. You can import or type-in your contacts.</label>
+							<input type="checkbox" name="share_on_fb" id="share_on_fb" class="custom" />
+							<label for="share_on_fb">Share on facebook.</label>
+							<input type="checkbox" name="share_email" id="share_email" class="custom" />
+							<label for="share_email">Share with other friends via email. You can <a href="#" id="sharing-open-contact">import</a> your contacts.</label>
+						</fieldset>
+						
+						<fieldset data-role="controlgroup">
+							<legend>Your email addresses</legend>
 						</fieldset>
 					</div>
 					<a href="#" id="screen-create-album-save" data-role="button">Save</a>
@@ -190,7 +200,7 @@
 			<div data-role="header">
 				<a href="#" class="back-button" data-role="button">Back</a>
 				<h1 class="pet-name"></h1>
-				<a href="#screen-logout" class="ui-btn-right" data-icon="">Logout</a>
+				<a href="#" data-icon="home" data-iconpos="notext" class="home-button ui-btn-right" data-direction="reverse">Home</a>
 			</div>
 			<div data-role="content">
 				<div class="pet-detials">
@@ -217,7 +227,7 @@
 			<div data-role="header">
 				<a href="#" class="back-button" data-role="button">Back</a>
 				<h1 class="pet-name">Albums</h1>
-				<a href="#screen-logout" class="ui-btn-right" data-icon="">Logout</a>
+				<a href="#" data-icon="home" data-iconpos="notext" class="home-button ui-btn-right" data-direction="reverse">Home</a>
 			</div>
 			<div data-role="content">
 				<ul id="my-pet-albums-list" data-role="listview" data-filter="true"></ul>
@@ -230,7 +240,7 @@
 			<div data-role="header">
 				<a href="#" class="back-button" data-role="button">Back</a>
 				<h1 class="album-name"></h1>
-				<a href="#screen-logout" class="ui-btn-right" data-icon="">Logout</a>
+				<a href="#" data-icon="home" data-iconpos="notext" class="home-button ui-btn-right" data-direction="reverse">Home</a>
 			</div>
 			<div data-role="content">
 				<ul id="my-pet-album-gallery" class="gallery"></ul>
@@ -243,7 +253,7 @@
 			<div data-role="header">
 				<a href="#" class="back-button" data-role="button">Back</a>
 				<h1 class="album-name"></h1>
-				<a href="#screen-logout" class="ui-btn-right" data-icon="">Logout</a>
+				<a href="#" data-icon="home" data-iconpos="notext" class="home-button ui-btn-right" data-direction="reverse">Home</a>
 			</div>
 			<div data-role="content">
 				<ul id="my-pet-album-gallery-edit" class="gallery"></ul>

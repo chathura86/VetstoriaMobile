@@ -14,12 +14,32 @@ var Core = {
 		
 		$('.page').live('pageshow', function () {
 			//keep the old one on the stack
-			Screens.stack.push($(this));
+			var self = $(this);
+			
+			var ignoreList = [
+				'screen-upload-photo',
+				'screen-create-album'
+			]
+			
+			if ($.inArray(self.attr('id'), ignoreList))
+				return;
+			
+			Screens.stack.push(self);
 			return true;
 		})
 		
 		$('.back-button').tap(function () {
 			Screens.back();
+			return false;
+		});
+		
+		$('.home-button').tap(function () {
+			Screens.show('screen-main', true);
+			return false;
+		});
+		
+		$('#screen-main-logout').tap(function () {
+			Screens.show('screen-logout');
 			return false;
 		});
 		
@@ -299,7 +319,7 @@ var Core = {
 				{
 					var album = response.data.items[i];
 					if (album.photos == undefined)
-						album.photos = [{ file : 'default-album.png' }];
+						album.photos = [{file : 'default-album.png'}];
 					
 					var link = $('<a/>')
 						.append($('<img/>', {'class' : "ui-li-thumb",  src : MEDIA_PATH + album.photos[0].file}))
@@ -461,4 +481,3 @@ $( document ).bind( "pagechange", function() {
 });
 
 document.addEventListener("deviceready", onDeviceReady, false);
-
