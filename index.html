@@ -132,6 +132,59 @@
 		</div>
 		<!-- /page -->
 		
+		<!-- Start of create album page -->
+		<div data-role="page" class="page" id="screen-create-album">
+			<div data-role="header">
+				<a href="#" class="back-button" data-role="button">Back</a>
+				<h1>New Album</h1>
+				<a href="#screen-logout" class="ui-btn-right" data-icon="">Logout</a>
+			</div>
+			<div data-role="content">
+				<form id="screen-create-album-form">
+					<div data-role="fieldcontain">
+						<label for="name" class="">Name :</label>
+						<input type="text" required name="name" value="" placeholder="Album name"/>
+					</div>
+					<a href="#" id="screen-create-album-save" data-role="button">Save</a>
+				</form>
+			</div>
+		</div>
+		<!-- /create album -->
+		
+		<!-- Start of sharing album page -->
+		<div data-role="page" class="page" id="screen-share-album">
+			<div data-role="header">
+				<a href="#" class="back-button" data-role="button">Back</a>
+				<h1>Share Album</h1>
+				<a href="#screen-logout" class="ui-btn-right" data-icon="">Logout</a>
+			</div>
+			<div data-role="content">
+				<form id="screen-share-album-form">
+					<div data-role="fieldcontain">
+						<fieldset data-role="controlgroup">
+							<legend>Share Within Vetstoria</legend>
+							<input type="checkbox" name="checkbox-0" id="checkbox-0" class="custom" />
+							<label for="checkbox-0">Share with all users registered on Vetstoria.</label>
+							<input type="checkbox" name="checkbox-1" id="checkbox-1" class="custom" />
+							<label for="checkbox-1">Share with all your friends and vets on Vetstoria.</label>
+							<input type="checkbox" name="checkbox-2" id="checkbox-2" class="custom" />
+							<label for="checkbox-2">Share the album with specific friends on Vetstoria selected below.</label>
+						</fieldset>
+						
+						<fieldset data-role="controlgroup">
+							<legend>Share Outside Of Vetstoria</legend>
+							<input type="checkbox" name="checkbox-3" id="checkbox-3" class="custom" />
+							<label for="checkbox-3">Share on facebook.</label>
+							<input type="checkbox" name="checkbox-4" id="checkbox-4" class="custom" />
+							<label for="checkbox-4">Share with other friends via email. You can import or type-in your contacts.</label>
+						</fieldset>
+					</div>
+					<a href="#" id="screen-create-album-save" data-role="button">Save</a>
+				</form>
+			</div>
+		</div>
+		<!-- /create album -->
+		
 		<!-- Start of my pet page -->
 		<div data-role="page" class="page" id="screen-my-pet">
 			<div data-role="header">
@@ -153,6 +206,7 @@
 					<a href="#" id="screen-my-pet-vet-updates" data-role="button" class="ui-li-has-count">Vet Updates <span id="screen-my-pet-vets-update-count" class="ui-li-count ui-btn-up-c ui-btn-corner-all">0</span></a>
 					<a href="#" id="screen-my-pet-photos" data-role="button">Photos</a>
 					<a href="#" id="screen-my-pet-take-a-photo" data-role="button">Take a Photo</a>
+					<a href="#" id="screen-my-pet-new-album" data-role="button">Create a new album</a>
 				</div>
 			</div>
 		</div>

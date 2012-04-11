@@ -220,6 +220,12 @@ var Core = {
 				});
 				return false;
 			});
+			
+			self.find('#screen-my-pet-new-album').click(function () {
+				$('#screen-create-album').data('pet', self.data('pet'));
+				Screens.show('screen-create-album');
+				return false;
+			});
 		})
 		.live('pageshow', function () {
 			var self = $(this);
@@ -240,6 +246,40 @@ var Core = {
 			
 		});
 		
+		$('#screen-create-album').live('pageinit', function () {
+			var self = $(this);
+			self.find('#screen-create-album-save').click(function () {
+				var data = {
+					pet : self.data('pet'),
+					name : self.find('input[name="name"]').val()
+				}
+				
+				if (data.name == "") {
+					alert ('Please enter the album name');
+					return false;
+				}
+				
+				Api.post('album', data, function (response) {
+					if (response.success) {
+						$('#screen-my-pet-album-edit').data('album', response.data.id);
+						Screens.show('screen-my-pet-album-edit');
+						return false;
+					} else {
+						console.log(response)
+					}
+				})
+				
+				return false;
+			});
+		})
+		.live('pageshow', function () {
+			var self = $(this);
+			if (!self.data('pet')) {
+				Screens.show('screen-my-pets');
+				return false;
+			}
+		})
+		
 		$('#screen-my-pet-albums').live('pageshow', function () {
 			var self = $(this);
 			
@@ -258,6 +298,9 @@ var Core = {
 				for (var i in response.data.items)
 				{
 					var album = response.data.items[i];
+					if (album.photos == undefined)
+						album.photos = [{ file : 'default-album.png' }];
+					
 					var link = $('<a/>')
 						.append($('<img/>', {'class' : "ui-li-thumb",  src : MEDIA_PATH + album.photos[0].file}))
 						.append($('<h3/>', {text : album.name.trim()}))
@@ -379,6 +422,12 @@ var Core = {
 					pet : $('#screen-my-pet').data('pet'),
 					album : self.data('album')
 				});
+				return false;
+			});
+			
+			self.find('#screen-my-pet-album-edit-sharing').click(function () {
+				$('#screen-share-album').data('album', self.data('album'));
+				Screens.show('screen-share-album');
 				return false;
 			});
 		});
