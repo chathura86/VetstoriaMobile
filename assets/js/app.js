@@ -451,6 +451,94 @@ var Core = {
 				return false;
 			});
 		});
+		
+		$('#screen-share-album').live('pageinit', function () {
+			var self = $(this);
+			
+			self.find('#screen-share-album-save').click(function () {
+				var data = {
+					album: self.data('album'),
+					all : {
+						selected : self.find('#share_all_in_vets').is(':checked'),
+						id : self.find('#share_all_in_vets').data('share_id')
+					},
+					friends : {
+						selected : self.find('#share_all_friends').is(':checked'),
+						id : self.find('#share_all_friends').data('share_id')
+					},
+					fb : {
+						selected : self.find('#share_on_fb').is(':checked'),
+						id : self.find('#share_on_fb').data('share_id')
+					},
+					'private' : {
+						selected : self.find('#share_private').is(':checked'),
+						id : self.find('#share_private').data('share_id')
+					}
+				}
+				
+				Api.update('share', data, function (response) {
+					console.log(response)
+				});
+			});
+			
+			self.find("input[type='checkbox']").change(function () {
+				var $this = $(this);
+				
+				switch ($this.attr('id')) {
+					case 'share_all_in_vets' :
+						self.find('#share_all_friends').data('share_id', 0).removeAttr('checked');
+						self.find('#share_private').data('share_id', 0).removeAttr('checked');
+						break;
+					case 'share_all_friends' :
+						self.find('#share_all_in_vets').data('share_id', 0).removeAttr('checked');
+						self.find('#share_private').data('share_id', 0).removeAttr('checked');
+						break;
+					case 'share_private' :
+						self.find('#share_all_in_vets').data('share_id', 0).removeAttr('checked');
+						self.find('#share_all_friends').data('share_id', 0).removeAttr('checked');
+						self.find('#share_on_fb').data('share_id', 0).removeAttr('checked');
+				}
+				
+				self.find("input[type='checkbox']").checkboxradio("refresh")
+			});
+		});
+		
+		$('#screen-share-album').live('pageshow', function () {
+			var self = $(this);
+			
+			Api.get('album', self.data('album'), function (response) {
+				if (response.success) {
+					
+					self.find('#share_all_in_vets').data('share_id', 0).removeAttr('checked');
+					self.find('#share_all_friends').data('share_id', 0).removeAttr('checked');
+					self.find('#share_on_fb').data('share_id', 0).removeAttr('checked');
+					self.find('#share_private').data('share_id', 0).removeAttr('checked');
+					
+					if (response.data.hasFB == 0)
+						self.find('#share_on_fb').checkboxradio('disable');
+					
+					for (var i in response.data.share) {
+						var share = response.data.share[i];
+						switch (share.type) {
+							case 'private':
+								self.find('#share_private').attr('checked', 'checked').data('share_id', share.id);
+								break;
+							case 'community':
+								self.find('#share_all_in_vets').data('share_id', share.id).attr('checked', 'checked');
+								break;
+							case 'all-friends':
+								self.find('#share_all_friends').data('share_id', share.id).attr('checked', 'checked');
+								break;
+							case 'fb':
+								self.find('#share_on_fb').data('share_id', share.id).attr('checked', 'checked');
+								break;
+						}
+					}
+					
+					self.find("input[type='checkbox']").checkboxradio("refresh");
+				}
+			});
+		})
 	},
 	login : function (data) {
 		
@@ -481,3 +569,4 @@ $( document ).bind( "pagechange", function() {
 });
 
 document.addEventListener("deviceready", onDeviceReady, false);
+

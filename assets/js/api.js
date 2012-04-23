@@ -18,6 +18,10 @@ var Api = {
 		resource = resource + '/' + id;
 		Api.request(resource, success, 'DELETE');
 	},
+	update : function (resource, data, success, error) {
+		error = error || false;
+		Api.request(resource, success, 'PUT', data);
+	},
 	request : function (resource, success, type, data, error) {
 		type = type || 'GET';
 		data = data || {};
