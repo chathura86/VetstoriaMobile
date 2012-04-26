@@ -477,7 +477,11 @@ var Core = {
 				}
 				
 				Api.update('share', data, function (response) {
-					console.log(response)
+					if (response.success){
+						alert('Saved successfully')
+					} else {
+						console.log(response);
+					}
 				});
 			});
 			
@@ -569,4 +573,3 @@ $( document ).bind( "pagechange", function() {
 });
 
 document.addEventListener("deviceready", onDeviceReady, false);
-
