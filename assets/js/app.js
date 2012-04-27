@@ -21,7 +21,7 @@ var Core = {
 				'screen-create-album'
 			]
 			
-			if ($.inArray(self.attr('id'), ignoreList))
+			if ($.inArray(self.attr('id'), ignoreList) >= 0)
 				return;
 			
 			Screens.stack.push(self);
@@ -573,3 +573,5 @@ $( document ).bind( "pagechange", function() {
 });
 
 document.addEventListener("deviceready", onDeviceReady, false);
+
+
