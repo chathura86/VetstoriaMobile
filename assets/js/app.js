@@ -88,9 +88,10 @@ var Core = {
 			$('#screen-upload-photo-save').tap(function () {
 				var album = $('select#screen-upload-photo-select-album').val();
 				var pet = $('select#screen-upload-photo-select-pet').val();
+				var desc = $('#screen-upload-photo-description').val();
 				
 				if (album > 0) {
-					Api.post('photo', {album : album, photo : Cam.lastPhoto}, function (response) {
+					Api.post('photo', {album : album, photo : Cam.lastPhoto, desc : desc}, function (response) {
 						$('#screen-my-pet').data('pet', pet);
 						$('#screen-my-pet-album').data('album', album);
 						Cam.lastPhoto = false;
@@ -573,5 +574,4 @@ $( document ).bind( "pagechange", function() {
 });
 
 document.addEventListener("deviceready", onDeviceReady, false);
-
 
