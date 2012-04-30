@@ -409,7 +409,7 @@ var Core = {
 						photo.find('img')
 							.attr('src', Server + '/service/imageresize/?image=' + MEDIA_PATH + response.data.photos[i].file)
 							.attr('alt', response.data.name);
-							
+						alert(Server + '/service/imageresize/?image=' + MEDIA_PATH + response.data.photos[i].file)	
 						photo.appendTo(self.find('#my-pet-album-gallery-edit'));
 					}
 				}
