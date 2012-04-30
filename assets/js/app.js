@@ -388,33 +388,38 @@ var Core = {
 			var self = $(this);
 			//remove prev list
 			$('#my-pet-album-gallery-edit').find('li').remove();
-			alert(self.data('album'))
-			Api.get('album', self.data('album'), function (response) {
-				alert(response.success)
-				if (response.success) {
-					for (var i in response.data.photos) {
-						var photo = $('<li><a href="javascript;" rel="external"><img src="" alt="" /></a></li>');
-						photo.find('a')
-							.data('photo', response.data.photos[i].id)
-							.click(function () {
-								//confimr delete
-								if (confirm("Are you sure you want to delete this pgoto?")) {
-									Api.del('photo', $(this).data('photo'), function (response) {
-										if (response.success)
-											photo.remove();
-									});
-								}
-								
-								return false;
-							});
-						photo.find('img')
-							.attr('src', Server + '/service/imageresize/?image=' + MEDIA_PATH + response.data.photos[i].file)
-							.attr('alt', response.data.name);
-						
-						photo.appendTo(self.find('#my-pet-album-gallery-edit'));
+			try
+			{
+				Api.get('album', self.data('album'), function (response) {
+					if (response.success) {
+						for (var i in response.data.photos) {
+							var photo = $('<li><a href="javascript;" rel="external"><img src="" alt="" /></a></li>');
+							photo.find('a')
+								.data('photo', response.data.photos[i].id)
+								.click(function () {
+									//confimr delete
+									if (confirm("Are you sure you want to delete this pgoto?")) {
+										Api.del('photo', $(this).data('photo'), function (response) {
+											if (response.success)
+												photo.remove();
+										});
+									}
+
+									return false;
+								});
+							photo.find('img')
+								.attr('src', Server + '/service/imageresize/?image=' + MEDIA_PATH + response.data.photos[i].file)
+								.attr('alt', response.data.name);
+
+							photo.appendTo(self.find('#my-pet-album-gallery-edit'));
+						}
 					}
-				}
-			});
+				});
+			}
+			catch(e)
+			{
+				alert(e)
+			}
 		});
 		
 		$('#screen-my-pet-album-edit').live('pageinit', function () {
