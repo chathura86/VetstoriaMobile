@@ -8,6 +8,7 @@ var Api = {
 		Api.request(resource, success, 'GET', data);
 	},
 	get : function (resource, id, success) {
+		success = success || false;
 		Api.request(resource + '/' + id, success, 'GET');
 	},
 	post : function (resource, data, success, error) {
@@ -28,7 +29,7 @@ var Api = {
 		
 		success = success || Api.success
 		error = error || Api.error
-		alert(Api.path + resource + '?format=json')
+
 		$.ajax({
 			url: Api.path + resource + '?format=json',
 			data : type == 'GET' ? data : JSON.stringify(data),
@@ -36,7 +37,6 @@ var Api = {
 			error : error,
 			crossDomain: true,
 			type: type,
-			success: success,
 			dataType : 'json',
 			jsonpCallback: 'callback',
 			jsonp: "jsonp-callback",
@@ -49,14 +49,18 @@ var Api = {
 		});
 	},
 	success : function (data, textStatus, jqXHR) {
-		console.log(data);
-		console.log(textStatus);
-		console.log(jqXHR);
+		alert('Success');
+		alert(data);
+		alert(textStatus);
+		alert(jqXHR);
+		alert('-------');
 	},
 	error : function (jqXHR, textStatus, errorThrown) {
-		alert('Error')
+		alert('Error');
 		alert(jqXHR);
+		alert(jqXHR.responseText);
 		alert(textStatus);
 		alert(errorThrown);
+		alert('-------');
 	}
 }
