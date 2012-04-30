@@ -28,7 +28,7 @@ var Api = {
 		
 		success = success || Api.success
 		error = error || Api.error
-
+		alert(Api.path + resource + '?format=json')
 		$.ajax({
 			url: Api.path + resource + '?format=json',
 			data : type == 'GET' ? data : JSON.stringify(data),
@@ -54,8 +54,9 @@ var Api = {
 		console.log(jqXHR);
 	},
 	error : function (jqXHR, textStatus, errorThrown) {
-		console.log(jqXHR);
-		console.log(textStatus);
-		console.log(errorThrown);
+		alert('Error')
+		alert(jqXHR);
+		alert(textStatus);
+		alert(errorThrown);
 	}
 }
