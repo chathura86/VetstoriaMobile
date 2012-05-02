@@ -201,7 +201,7 @@ var Core = {
 			});
 		});
 		
-		$('#screen-my-pets').live('pageinit', function () {
+		$('#screen-my-pets').live('pageshow', function () {
 			Api.getList('mypet', function (response) { 
 				//iterate pets and add to list
 				var list = $('ul#my-pets-list');
@@ -210,11 +210,12 @@ var Core = {
 				{
 					var pet = response.data.items[i];
 					var a = $('<a/>')
+						.data('pet_id', pet.id)
 						.append($('<img/>', {'class' : "ui-li-thumb",  src : pet.image}))
 						.append($('<h3/>', {text : pet.name.trim()}))
 						.append($('<p/>', {text : "" + pet.species.trim() + " - (" + pet.breed.trim() + ")"}))
 						.click(function () {
-							$('#screen-my-pet').data('pet', pet.id);
+							$('#screen-my-pet').data('pet', $(this).data('pet_id'));
 							Screens.show('screen-my-pet');
 							return false;
 						});
@@ -574,3 +575,4 @@ $( document ).bind( "pagechange", function() {
 });
 
 document.addEventListener("deviceready", onDeviceReady, false);
+
