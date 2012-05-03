@@ -77,6 +77,37 @@ var Core = {
 			return false;
 		});
 		
+		$('#screen-main-messages').tap(function () {
+			Screens.show('screen-my-messages');
+			return false;
+		});
+		
+		$('#screen-main-vet-updates').tap(function () {
+			Screens.show('screen-vets-update');
+			return false;
+		});
+		
+		$('#screen-vets-update').live('pageshow', function () {
+			var $this = $(this);
+			Api.getList('vetsupdate', function (response) {
+				//iterate pets and add to list
+				var list = $this.find('div.updates');
+				list.empty();
+				
+				for (var i in response.data.items)
+				{
+					var update = response.data.items[i];
+					$('<div/>')
+						.append($('<h3/>', { html : update.custom_title }))
+						.append($('<p/>', { html : update.content }))
+						.append($('<p/>', { html : update.shortname + ' - ' + update.posted_date }))
+						.appendTo(list);
+					
+					list.append('<hr />');
+				}
+			});
+		});
+		
 		$('#screen-main').live('pageshow', function () {
 			Api.getList('message', function (response) {
 				$('#screen-main-message-count').text(response.data.unreaded);
@@ -206,6 +237,8 @@ var Core = {
 				//iterate pets and add to list
 				var list = $('ul#my-pets-list');
 				
+				list.empty();
+				
 				for (var i in response.data.items)
 				{
 					var pet = response.data.items[i];
@@ -225,6 +258,44 @@ var Core = {
 				
 				list.listview('refresh');
 			});
+		});
+		
+		$('#screen-my-messages').live('pageshow', function () {
+			Api.getList('message', function (response) { 
+				//iterate pets and add to list
+				var list = $('ul#my-message-list');
+				
+				list.empty();
+				
+				for (var i in response.data.items)
+				{
+					var message = response.data.items[i];
+					var a = $('<a/>')
+						.data('message', message)
+						.append($('<h3/>', {text : message.title.trim()}))
+						.append($('<p/>', {html : "From : " + message.from_name.trim() + " - (" + message.from_type.trim() + ")" + "<br />Date: " + message.date.trim()}))
+						.click(function () {
+							$('#screen-my-message').data('message', $(this).data('message'));
+							Screens.show('screen-my-message');
+							return false;
+						});
+					
+					$('<li/>').append(a).appendTo(list);
+				}
+				
+				list.listview('refresh');
+			});
+		});
+		
+		$('#screen-my-message').live('pageshow', function () {
+			var $this = $(this);
+			var message = $this.data('message');
+			var content = $this.find('.message');
+			content.empty();
+			content.append($('<h2/>', {text : message.title.trim()}));
+			content.append($('<h3/>', {text : 'From : ' + message.from_name.trim()}));
+			content.append($('<h3/>', {text : 'Date : ' + message.date.trim()}));
+			content.append($('<p/>', {html : message.content.trim()}));
 		});
 		
 		$('#screen-my-pet')
@@ -575,4 +646,5 @@ $( document ).bind( "pagechange", function() {
 });
 
 document.addEventListener("deviceready", onDeviceReady, false);
+
 
