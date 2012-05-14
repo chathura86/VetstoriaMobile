@@ -1,5 +1,7 @@
 var Data = {
-	token : null
+	token : null,
+	userType : '',
+	clinicUser: false
 }
 var Core = {
 	bindEvents : function () {
@@ -34,11 +36,17 @@ var Core = {
 		});
 		
 		$('.home-button').tap(function () {
-			Screens.show('screen-main', true);
+			switch(Data.userType) {
+				case 'clinic':
+					Screens.show('screen-main-clinic', true);
+					break;
+				default:
+					Screens.show('screen-main', true);
+			}
 			return false;
 		});
 		
-		$('#screen-main-logout').tap(function () {
+		$('#screen-main-logout, #screen-main-clinic-logout').tap(function () {
 			Screens.show('screen-logout');
 			return false;
 		});
@@ -58,7 +66,15 @@ var Core = {
 					Data.token = response.data.token;
 					email.val('');
 					password.val('');
-					Screens.show('screen-main');
+					switch(response.data.type) {
+						case 'clinic':
+							Data.userType = 'clinic';
+							Screens.show('screen-main-clinic');
+							break;
+						default:
+							Data.userType = 'petowner';
+							Screens.show('screen-main');
+					}
 				} else {
 					alert ('Invalid username/password');
 				}
@@ -98,9 +114,9 @@ var Core = {
 				{
 					var update = response.data.items[i];
 					$('<div/>')
-						.append($('<h3/>', { html : update.custom_title }))
-						.append($('<p/>', { html : update.content }))
-						.append($('<p/>', { html : update.shortname + ' - ' + update.posted_date }))
+						.append($('<h3/>', {html : update.custom_title}))
+						.append($('<p/>', {html : update.content}))
+						.append($('<p/>', {html : update.shortname + ' - ' + update.posted_date}))
 						.appendTo(list);
 					
 					list.append('<hr />');
@@ -112,6 +128,167 @@ var Core = {
 			Api.getList('message', function (response) {
 				$('#screen-main-message-count').text(response.data.unreaded);
 			});
+		});
+		
+		$('#screen-main-clinic').live('pageinit', function () {
+			$('#screen-main-clinic-switch-user').tap(function () {
+				Screens.show('screen-clinic-selectuser');
+				return false;
+			});
+			
+			$('#screen-main-clinic-find-pets').tap(function () {
+				Screens.show('screen-clinic-find-pet');
+				return false;
+			});
+		});
+		
+		$('#screen-main-clinic').live('pageshow', function () {
+			if (Data.clinicUser == false) {
+				Screens.show('screen-clinic-selectuser');
+			}
+		});
+		
+		$('#screen-clinic-find-pet').live('pageshow', function () {
+			$(this).find('#screen-clinic-find-pet-list').empty().listview('refresh');
+		});
+		
+		$('#screen-clinic-find-pet').live('pageinit', function () {
+			var self = $(this);
+			var list = self.find('#screen-clinic-find-pet-list');
+			$('#screen-clinic-find-pet-search').tap(function () {
+				list.empty();
+				var data = {
+					pet: self.find('#pet').val(),
+					owner: self.find('#owner').val(),
+					species: self.find('#species').val()
+				}
+				
+				if (data.species == 'all')
+					data.species = '';
+				
+				if (data.pet == "" && data.owner == "" && data.species == "")
+				{
+					alert('Please select atleast one search criteria');
+					return false;
+				}
+				
+				Api.getList('petsearch', function (response) {
+					//iterate pets and add to list
+					for (var i in response.data)
+					{
+						var pet = response.data[i];
+						var a = $('<a/>')
+							.data('pet', pet)
+							.append($('<h3/>', {html : pet.name + "(" + pet.species + " - " + pet.age + ")"}))
+							.append($('<p/>', {html : pet.petowner}))
+							.click(function () {								
+								$('#screen-vet-pet-album').data('pet', $(this).data('pet'))
+								Screens.show('screen-vet-pet-album');
+								return false;
+							});
+					
+						$('<li/>').append(a).appendTo(list);
+					}
+					
+					list.listview('refresh');
+				}, data);
+				
+				return false;
+			});
+		})
+		
+		$('#screen-vet-pet-album')
+		.live('pageinit', function () {
+			var self = $(this);
+			
+			self.find('#screen-vet-pet-album-edit-take-a-photo').tap(function () {
+				Cam.open({
+					pet : self.data('pet').id
+				});
+				return false;
+			});
+			
+			self.find('#screen-vet-pet-album-edit-browse').tap(function () {
+				Cam.select({
+					pet : self.data('pet').id
+				});
+				return false;
+			});
+				
+		})
+		.live('pageshow', function (e){
+			var self = $(this);
+			var pet = self.data('pet');
+			self.find('#vet-pet-album-gallery').empty();
+			
+			Api.getList('vetpetalbum', function (response) {
+				if (response.success) {
+					for (var i in response.data.photos) {
+						var photo = $('<li><a href="" rel="external"><img src="" alt="" /></a></li>');
+						photo.find('a').attr('href', MEDIA_PATH + response.data.photos[i].file);
+						photo.find('img')
+							.attr('src', Server + '/service/imageresize/?image=' + MEDIA_PATH + response.data.photos[i].file)
+							.attr('alt', response.data.name);
+							
+						photo.appendTo(self.find('#vet-pet-album-gallery'));
+					}
+					var	options = {};
+					var	photoSwipeInstance = $("ul.gallery a", e.target).photoSwipe(options,  self.attr('id'));
+				}
+			}, { pet : pet.id });
+		})
+		
+		$('#screen-clinic-selectuser').live('pageshow', function () {
+			Api.getList('vetuser', function (response) {
+				//iterate pets and add to list
+				var list = $('ul#screen-clinic-selectuser-list');
+				list.empty();
+				
+				for (var i in response.data.veterinarian)
+				{
+					var vet = response.data.veterinarian[i];
+					var a = $('<a/>')
+						.data('vet', vet)
+						.append($('<img/>', {'class' : "ui-li-thumb",  src : vet.profile_picture_id}))
+						.append($('<h3/>', {text : vet.shortname.trim()}))
+						.click(function () {
+							Data.clinicUser = $(this).data('vet');
+							Screens.show('screen-main-clinic');
+							return false;
+						});
+					
+					$('<li/>').append(a).appendTo(list);
+				}
+				
+				list.listview('refresh');	
+			});
+		});
+		
+		//page init bindings
+		$('#screen-upload-photo-clinic').live('pageinit', function () {
+			$('#screen-upload-photo-clinic-save').tap(function () {
+				var pet = Cam.data.pet;
+				var desc = $('#screen-upload-photoc-description').val();
+				
+				if (pet > 0) {
+					Api.post('photo', {pet : pet, photo : Cam.lastPhoto, desc : desc}, function (response) {
+						$('#screen-vet-pet-album').data('pet', { id : pet });
+						Cam.lastPhoto = false;
+						Screens.show('screen-vet-pet-album');
+					});
+				} else {
+					alert('Please select a pet');
+					return false;
+				}
+			});
+		})
+		.live('pageshow', function () {
+			if (Cam.lastPhoto === false || Cam.data.pet <= 0) {
+				Screens.back();
+				return;
+			}
+			
+			Screens.current.find('#cam-photoc-thumb').attr('src', "data:image/jpeg;base64," + Cam.lastPhoto);
 		});
 		
 		//page init bindings
@@ -132,6 +309,10 @@ var Core = {
 					alert('Please select an album');
 					return false;
 				}
+			});
+			
+			$('#screen-upload-photo-clinic-back').tap(function () {
+				Screens.back();
 			});
 		});
 		
@@ -319,6 +500,12 @@ var Core = {
 				Screens.show('screen-create-album');
 				return false;
 			});
+			
+			self.find('#screen-my-pet-vet-updates').click(function () {
+				Screens.show('screen-vets-update');
+				return false;
+			});
+			
 		})
 		.live('pageshow', function () {
 			var self = $(this);
@@ -625,6 +812,7 @@ var Core = {
 			Data.token = null,
 			Screens.stack = [];
 			Screens.show('screen-login');
+			Data.clinicUser = false;
 		});
 	}
 }
@@ -646,5 +834,4 @@ $( document ).bind( "pagechange", function() {
 });
 
 document.addEventListener("deviceready", onDeviceReady, false);
-
 

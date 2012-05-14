@@ -1,5 +1,5 @@
 var MEDIA_PATH = "http://devmedia.vetstoria.com/";
-var Server = 'http://api.vetstoria.com';
+var Server = 'http://dev.api.vetstoria.com';
 var Api = {
 	path : Server + '/rest/',
 	key : 'my-key',

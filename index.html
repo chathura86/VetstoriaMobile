@@ -92,6 +92,75 @@
 		</div>
 		<!-- /page -->
 		
+		<!-- Start of main menu page -->
+		<div data-role="page" class="page" id="screen-main-clinic">
+			<div data-role="header">
+				<a href="#" class="back-button" data-role="button">Back</a>
+				<h1>Main Menu</h1>
+				<a href="#" data-icon="home" data-iconpos="notext" class="home-button ui-btn-right" data-direction="reverse">Home</a>
+			</div>
+			<div data-role="content">
+				<a href="#" id="screen-main-clinic-find-pets" data-role="button">Find a Patient</a>
+<!--				<a href="#" id="screen-main-clinic-take-a-photo" data-role="button">Take a Photo</a>-->
+				<a href="#" id="screen-main-clinic-switch-user" data-role="button">Switch User</a>
+				<a href="#" id="screen-main-clinic-logout" data-role="button">Logout</a>
+				<p>
+					&nbsp;
+				</p>
+<!--			<ul id="screen-main-clinic-recent-list" data-role="listview" data-filter="true"></ul>-->
+			</div>
+		</div>
+		<!-- /page -->
+		
+		<!-- Start of main menu page -->
+		<div data-role="page" class="page" id="screen-clinic-find-pet">
+			<div data-role="header">
+				<a href="#" class="back-button" data-role="button">Back</a>
+				<h1>Find a Patient</h1>
+				<a href="#" data-icon="home" data-iconpos="notext" class="home-button ui-btn-right" data-direction="reverse">Home</a>
+			</div>
+			<div data-role="content">
+				<form id="screen-clinic-find-pet-form">
+					<div data-role="fieldcontain">
+						<label for="pet" class="">Pet :</label>
+						<input type="text" required name="pet" id="pet" value="" placeholder="Pet"/>
+					</div>
+					<div data-role="fieldcontain">
+						<label for="owner" class="">Owner :</label>
+						<input type="email" required name="owner" id="owner" value="" placeholder="Owner"/>
+					</div>
+					<div data-role="fieldcontain">
+						<select data-native-menu="false" name="" id="species">
+							<option value="" data-placeholder="true">Species</option>
+							<option value="all">All</option>
+							<option value="dog" >Dog</option>
+							<option value="cat" >Cat</option>
+							<option value="rabbit" >Rabbit</option>
+						</select>
+					</div>
+					<a href="#" id="screen-clinic-find-pet-search" data-role="button">Search</a>
+				</form>
+				<p>
+					&nbsp;
+				</p>
+				<ul id="screen-clinic-find-pet-list" data-role="listview"></ul>
+			</div>
+		</div>
+		<!-- /page -->
+		
+		<!-- Start of main menu page -->
+		<div data-role="page" class="page" id="screen-clinic-selectuser">
+			<div data-role="header">
+				<a href="#" class="back-button" data-role="button">Back</a>
+				<h1>Select a Vet</h1>
+				<a href="#" data-icon="home" data-iconpos="notext" class="home-button ui-btn-right" data-direction="reverse">Home</a>
+			</div>
+			<div data-role="content">
+				<ul id="screen-clinic-selectuser-list" data-role="listview" data-filter="true"></ul>
+			</div>
+		</div>
+		<!-- /page -->
+		
 		<!-- Start of photo upload page -->
 		<div data-role="page" class="page" id="screen-upload-photo">
 			<div data-role="header">
@@ -121,6 +190,29 @@
 				</div>
 				<a href="#" id="screen-upload-photo-save" data-role="button">Save</a>
 				<a href="#" id="screen-upload-photo-back" class="back-button" data-role="button">Cancel</a>
+			</div>
+		</div>
+		<!-- /page -->
+		
+		<!-- Start of photo upload page -->
+		<div data-role="page" class="page" id="screen-upload-photo-clinic">
+			<div data-role="header">
+				<a href="#" class="back-button" data-role="button">Back</a>
+				<h1>Upload Photo</h1>
+				<a href="#" data-icon="home" data-iconpos="notext" class="home-button ui-btn-right" data-direction="reverse">Home</a>
+			</div>
+			<div data-role="content">
+				<div class="photo-taken">
+					<span class="frame"><img style="width: 80%" id="cam-photoc-thumb" src="assets/img/placeholder.png" /></span>
+				</div>
+				<div class="album">
+					<div data-role="fieldcontain">
+						<label for="textarea">Description:</label>
+						<textarea name="description" id="screen-upload-photoc-description"></textarea>
+					</div>
+				</div>
+				<a href="#" id="screen-upload-photo-clinic-save" data-role="button">Save</a>
+				<a href="#" id="screen-upload-photo-clinic-back" class="back-button" data-role="button">Cancel</a>
 			</div>
 		</div>
 		<!-- /page -->
@@ -256,6 +348,21 @@
 			</div>
 		</div>
 		<!-- /page -->
+		
+		<div data-role="page" data-add-back-btn="true" id="screen-vet-pet-album" class="page gallery-page">
+			<div data-role="header">
+				<a href="#" class="back-button" data-role="button">Back</a>
+				<h1 class="album-name"></h1>
+				<a href="#" data-icon="home" data-iconpos="notext" class="home-button ui-btn-right" data-direction="reverse">Home</a>
+			</div>
+			<div data-role="content">
+				<ul id="vet-pet-album-gallery" class="gallery"></ul>
+				<div class="edit-album-links">
+					<a href="#" id="screen-vet-pet-album-edit-take-a-photo" data-role="button">Take a Photo</a>
+					<a href="#" id="screen-vet-pet-album-edit-browse" data-role="button">Browse Photos</a>
+				</div>
+			</div>
+		</div>
 		
 		<!-- Start of my messages -->
 		<div data-role="page" class="page" id="screen-my-messages">

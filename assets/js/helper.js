@@ -64,11 +64,11 @@ var Screens = {
 
 var Cam = {
 	data : {},
-	lastPhoto : 'asdasasd',
+	lastPhoto : false,
 	open : function (data) {
 		data = data || {};
 		Cam.data = data;
-
+		
 		try {
 			navigator.camera.getPicture(Cam.success, Cam.error, {
 				quality: 80, 
@@ -99,7 +99,14 @@ var Cam = {
 		Cam.lastPhoto = imageData;
 		
 		//photo image preview window
-		Screens.show('screen-upload-photo');
+		switch(Data.userType) {
+			case 'clinic':
+				Screens.show('screen-upload-photo-clinic');
+				break;
+			default:
+				Screens.show('screen-upload-photo');
+		}
+		
 		
 	},
 	error : function (message) {
