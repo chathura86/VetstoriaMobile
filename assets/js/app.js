@@ -250,7 +250,8 @@ var Core = {
 					var a = $('<a/>')
 						.data('vet', vet)
 						.append($('<img/>', {'class' : "ui-li-thumb",  src : vet.profile_picture_id}))
-						.append($('<h3/>', {text : vet.shortname.trim()}))
+						.append($('<h3/>', {text : vet.forename.trim() + ' ' + vet.surname.trim() }))
+						.append($('<p/>', {text : vet.custom_title.trim() }))
 						.click(function () {
 							Data.clinicUser = $(this).data('vet');
 							Screens.show('screen-main-clinic');
