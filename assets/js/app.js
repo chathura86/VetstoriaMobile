@@ -250,8 +250,8 @@ var Core = {
 					var a = $('<a/>')
 						.data('vet', vet)
 						.append($('<img/>', {'class' : "ui-li-thumb",  src : vet.profile_picture_id}))
-						.append($('<h3/>', {text : vet.forename.trim() + ' ' + vet.surname.trim() }))
-						.append($('<p/>', {text : vet.custom_title.trim() }))
+						.append($('<h3/>', {text : vet.forename + ' ' + vet.surname }))
+						.append($('<p/>', {text : vet.custom_title }))
 						.click(function () {
 							Data.clinicUser = $(this).data('vet');
 							Screens.show('screen-main-clinic');
@@ -836,7 +836,7 @@ $( document ).bind( "pagechange", function() {
 
 document.addEventListener("deviceready", onDeviceReady, false);
 
-//enable when running on browser
+////enable when running on browser
 //$(function () {
 //	onDeviceReady();
 //});
