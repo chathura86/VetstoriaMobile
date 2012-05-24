@@ -836,7 +836,7 @@ $( document ).bind( "pagechange", function() {
 
 document.addEventListener("deviceready", onDeviceReady, false);
 
-////enable when running on browser
+//enable when running on browser
 //$(function () {
 //	onDeviceReady();
 //});

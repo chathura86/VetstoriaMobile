@@ -1,5 +1,5 @@
 var MEDIA_PATH = "http://devmedia.vetstoria.com/";
-var Server = 'http://dev.api.vetstoria.com';
+var Server = 'http://api.vetstoria.com';
 var Api = {
 	path : Server + '/rest/',
 	key : 'my-key',
@@ -56,11 +56,11 @@ var Api = {
 		alert('-------');
 	},
 	error : function (jqXHR, textStatus, errorThrown) {
-		alert('Error');
-		alert(jqXHR);
-		alert(jqXHR.responseText);
-		alert(textStatus);
-		alert(errorThrown);
-		alert('-------');
+		console.log('Error');
+		console.log(jqXHR);
+		console.log(jqXHR.responseText);
+		console.log(textStatus);
+		console.log(errorThrown);
+		console.log('-------');
 	}
 }
