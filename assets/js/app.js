@@ -317,10 +317,12 @@ var Core = {
 				
 				if (pet > 0) {
 					Api.post('photo', {pet : pet, photo : Cam.lastPhoto, desc : desc}, function (response) {
+						alert('Upload completed')
 						$('#screen-vet-pet-album').data('pet', {id : pet});
 						Cam.lastPhoto = false;
 						Screens.show('screen-vet-pet-album');
 					}, function () {
+						alert('upload completed')
 						$('#screen-vet-pet-album').data('pet', {id : pet});
 						Cam.lastPhoto = false;
 						Screens.show('screen-vet-pet-album');
