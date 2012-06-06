@@ -321,7 +321,9 @@ var Core = {
 						Cam.lastPhoto = false;
 						Screens.show('screen-vet-pet-album');
 					}, function () {
-						Screens.back();
+						$('#screen-vet-pet-album').data('pet', {id : pet});
+						Cam.lastPhoto = false;
+						Screens.show('screen-vet-pet-album');
 					});
 				} else {
 					alert('Please select a pet');
@@ -474,7 +476,7 @@ var Core = {
 					var pet = response.data.items[i];
 					var a = $('<a/>')
 						.data('pet_id', pet.id)
-						.append($('<img/>', {'class' : "ui-li-thumb",  src : pet.image}))
+						.append($('<img/>', {'class' : "ui-li-thumb list-thumb",  src : pet.image}))
 						.append($('<h3/>', {text : pet.name.trim()}))
 						.append($('<p/>', {text : "" + pet.species.trim() + " - (" + pet.breed.trim() + ")"}))
 						.click(function () {
@@ -566,7 +568,7 @@ var Core = {
 			
 			Api.get('mypet', self.data('pet'), function (response) {
 				self.find('.pet-name').html(response.data.name);
-				self.find('#pet-profile-thumb').attr('src', MEDIA_PATH + response.data.image);
+				self.find('#pet-profile-thumb').attr('src', MEDIA_PATH + response.data.profile_image);
 				self.find('.prop-dob').html(response.data.dob);
 				self.find('.prop-breed').html(response.data.breed);
 				self.find('.prop-species').html(response.data.species);
@@ -631,7 +633,7 @@ var Core = {
 						album.photos = [{file : 'default-album.png'}];
 					
 					var link = $('<a/>')
-						.append($('<img/>', {'class' : "ui-li-thumb",  src : MEDIA_PATH + album.photos[0].file}))
+						.append($('<img/>', {'class' : "ui-li-thumb list-thumb",  src : Server + '/service/imageresize/?image=' + MEDIA_PATH + album.photos[0].file}))
 						.append($('<h3/>', {text : album.name.trim()}))
 						.append($('<p/>', {text : "" + album.posted_date.trim() + " (" + album.view_count.trim() + ") Views"}))
 						.data('album', album.id)

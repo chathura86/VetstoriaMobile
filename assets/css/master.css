@@ -35,3 +35,8 @@
 #Gallery1 .ui-content, #Gallery2 .ui-content { overflow: hidden; }
 
 a.ui-li-has-count span span.ui-btn-text{ padding-right:0; position:static; }
+
+.list-thumb{
+	width: 80px;
+	height: 80px;
+}
