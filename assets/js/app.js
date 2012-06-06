@@ -105,9 +105,12 @@ var Core = {
 		
 		$('#screen-vets-update').live('pageshow', function () {
 			var $this = $(this);
+			//iterate pets and add to list
+			var list = $this.find('div.updates');
+			list.empty();
+				
 			Api.getList('vetsupdate', function (response) {
 				//iterate pets and add to list
-				var list = $this.find('div.updates');
 				list.empty();
 				
 				for (var i in response.data.items)
@@ -122,6 +125,31 @@ var Core = {
 					list.append('<hr />');
 				}
 			});
+		});
+		
+		$('#screen-pet-vets-update').live('pageshow', function () {
+			var $this = $(this);
+			var data = { pet : $this.data('pet') }
+			
+			var list = $this.find('div.updates');
+			list.empty();
+			
+			Api.getList('vetsupdate', function (response) {
+				//iterate pets and add to list
+				list.empty();
+				
+				for (var i in response.data.items)
+				{
+					var update = response.data.items[i];
+					$('<div/>')
+						.append($('<h3/>', {html : update.custom_title}))
+						.append($('<p/>', {html : update.content}))
+						.append($('<p/>', {html : update.shortname + ' - ' + update.posted_date}))
+						.appendTo(list);
+					
+					list.append('<hr />');
+				}
+			}, data);
 		});
 		
 		$('#screen-main').live('pageshow', function () {
@@ -553,7 +581,8 @@ var Core = {
 			});
 			
 			self.find('#screen-my-pet-vet-updates').click(function () {
-				Screens.show('screen-vets-update');
+				$('#screen-pet-vets-update').data('pet', self.data('pet'))
+				Screens.show('screen-pet-vets-update');
 				return false;
 			});
 			
