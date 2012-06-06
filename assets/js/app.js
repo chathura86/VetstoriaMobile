@@ -316,14 +316,11 @@ var Core = {
 				var desc = $('#screen-upload-photoc-description').val();
 				
 				if (pet > 0) {
-					alert ('Uploading');
 					Api.post('photo', {pet : pet, photo : Cam.lastPhoto, desc : desc}, function (response) {
-						alert ('A');
 						$('#screen-vet-pet-album').data('pet', {id : pet});
 						Cam.lastPhoto = false;
 						Screens.show('screen-vet-pet-album');
 					}, function () {
-						alert ('B');
 						$('#screen-vet-pet-album').data('pet', {id : pet});
 						Cam.lastPhoto = false;
 						Screens.show('screen-vet-pet-album');
