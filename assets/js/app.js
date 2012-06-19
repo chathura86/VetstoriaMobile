@@ -393,6 +393,19 @@ var Core = {
 			$('#screen-upload-photo-clinic-back').tap(function () {
 				Screens.back();
 			});
+			
+			$('#create-new-album').tap(function () {
+				var pet = $('select#screen-upload-photo-select-pet').val();
+				
+				if (pet > 0) {
+					$('#screen-create-album').data('pet', pet);
+					$('#screen-create-album').data('fromUpload', true);
+					Screens.show('screen-create-album');
+				} else {
+					alert('Please select a pet');
+					return false;
+				}
+			});
 		});
 		
 		$('#screen-upload-photo').live('pageshow', function () {
@@ -576,6 +589,7 @@ var Core = {
 			
 			self.find('#screen-my-pet-new-album').click(function () {
 				$('#screen-create-album').data('pet', self.data('pet'));
+				$('#screen-create-album').data('fromUpload', false);
 				Screens.show('screen-create-album');
 				return false;
 			});
@@ -621,8 +635,17 @@ var Core = {
 				
 				Api.post('album', data, function (response) {
 					if (response.success) {
-						$('#screen-my-pet-album-edit').data('album', response.data.id);
-						Screens.show('screen-my-pet-album-edit');
+						if (self.data('fromUpload') === true)
+						{
+							Cam.data.pet = self.data('pet');
+							Cam.data.album = response.data.id;
+							Screens.show('screen-upload-photo');
+						}
+						else
+						{
+							$('#screen-my-pet-album-edit').data('album', response.data.id);
+							Screens.show('screen-my-pet-album-edit');
+						}
 						return false;
 					} else {
 						console.log(response)
