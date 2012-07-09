@@ -20,7 +20,8 @@ var Core = {
 			
 			var ignoreList = [
 				'screen-upload-photo',
-				'screen-create-album'
+				'screen-create-album',
+				'screen-processing'
 			]
 			
 			if ($.inArray(self.attr('id'), ignoreList) >= 0)
@@ -69,7 +70,11 @@ var Core = {
 					switch(response.data.type) {
 						case 'clinic':
 							Data.userType = 'clinic';
-							Screens.show('screen-main-clinic');
+							if (Data.clinicUser == false) {
+								Screens.show('screen-clinic-selectuser');
+							} else {
+								Screens.show('screen-main-clinic');
+							}
 							break;
 						default:
 							Data.userType = 'petowner';
@@ -227,7 +232,7 @@ var Core = {
 						var pet = response.data[i];
 						var a = $('<a/>')
 							.data('pet', pet)
-							.append($('<h3/>', {html : pet.name + "(" + pet.species + " - " + pet.age + ")"}))
+							.append($('<h3/>', {html : pet.name + "(" + pet.species + " - " + pet.age + "Y)"}))
 							.append($('<p/>', {html : pet.petowner}))
 							.click(function () {								
 								$('#screen-vet-pet-album').data('pet', $(this).data('pet'))
@@ -290,18 +295,17 @@ var Core = {
 							
 						photo.appendTo(self.find('#vet-pet-album-gallery'));
 					}
-					var	options = {};
-					var	photoSwipeInstance = self.find("ul.gallery a").photoSwipe(options,  self.attr('id'));
+					var	photoSwipeInstance = self.find("ul.gallery a").photoSwipe({});
 				}
 			}, {pet : pet.id});
 		})
 		.live('pagehide', function(e){
 			var currentPage = $(e.target);
-			var	photoSwipeInstance = window.Code.PhotoSwipe.getInstance(currentPage.attr('id'));
-
-			if (typeof photoSwipeInstance != "undefined" && photoSwipeInstance != null) {
-				window.Code.PhotoSwipe.detatch(photoSwipeInstance);
-			}
+//			var	photoSwipeInstance = window.Code.PhotoSwipe.getInstance(currentPage.attr('id'));
+//
+//			if (typeof photoSwipeInstance != "undefined" && photoSwipeInstance != null) {
+//				window.Code.PhotoSwipe.detatch(photoSwipeInstance);
+//			}
 
 			//remove all the photos
 			currentPage.find('#my-pet-album-gallery li').remove();
@@ -339,7 +343,9 @@ var Core = {
 		//page init bindings
 		$('#screen-upload-photo-clinic').live('pageinit', function () {
 			$('#screen-upload-photo-clinic-save').tap(function () {
-				$(this).attr('disabled', true)
+				$(this)
+					.addClass('ui-disabled')
+					.html('Uploading...')
 				var pet = Cam.data.pet;
 				var desc = $('#screen-upload-photoc-description').val();
 				
@@ -348,6 +354,10 @@ var Core = {
 						$('#screen-vet-pet-album').data('pet', {id : pet});
 						Cam.lastPhoto = false;
 						Screens.show('screen-vet-pet-album');
+						
+						$('#screen-upload-photo-clinic-save')
+							.removeClass('ui-disabled')
+							.html('Save');
 					}, function () {
 						$('#screen-vet-pet-album').data('pet', {id : pet});
 						Cam.lastPhoto = false;
@@ -365,6 +375,10 @@ var Core = {
 				return;
 			}
 			
+			$('#screen-upload-photo-clinic-save')
+							.removeClass('ui-disabled')
+							.html('Save');
+			
 			$(this).removeAttr('disabled');
 			
 			Screens.current.find('#cam-photoc-thumb').attr('src', "data:image/jpeg;base64," + Cam.lastPhoto);
@@ -373,6 +387,9 @@ var Core = {
 		//page init bindings
 		$('#screen-upload-photo').live('pageinit', function () {
 			$('#screen-upload-photo-save').tap(function () {
+				$(this)
+					.addClass('ui-disabled')
+					.html('Uploading...')
 				var album = $('select#screen-upload-photo-select-album').val();
 				var pet = $('select#screen-upload-photo-select-pet').val();
 				var desc = $('#screen-upload-photo-description').val();
@@ -383,6 +400,9 @@ var Core = {
 						$('#screen-my-pet-album').data('album', album);
 						Cam.lastPhoto = false;
 						Screens.show('screen-my-pet-album');
+						$('#screen-upload-photo-save')
+							.removeClass('ui-disabled')
+							.html('Save');
 					});
 				} else {
 					alert('Please select an album');
@@ -413,6 +433,10 @@ var Core = {
 				Screens.back();
 				return;
 			}
+			
+			$('#screen-upload-photo-save')
+				.removeClass('ui-disabled')
+				.html('Save');;
 			
 			Screens.current.find('#cam-photo-thumb').attr('src', "data:image/jpeg;base64," + Cam.lastPhoto);
 			
@@ -723,8 +747,7 @@ var Core = {
 							
 						photo.appendTo(self.find('#my-pet-album-gallery'));
 					}
-					var	options = {};
-					var	photoSwipeInstance = $("ul.gallery a", e.target).photoSwipe(options,  self.attr('id'));
+					var	photoSwipeInstance = $("ul.gallery a").photoSwipe({});
 				}
 			});
 			
@@ -733,11 +756,11 @@ var Core = {
 		})
 		.live('pagehide', function(e){
 			var currentPage = $(e.target);
-			var	photoSwipeInstance = window.Code.PhotoSwipe.getInstance(currentPage.attr('id'));
-
-			if (typeof photoSwipeInstance != "undefined" && photoSwipeInstance != null) {
-				window.Code.PhotoSwipe.detatch(photoSwipeInstance);
-			}
+//			var	photoSwipeInstance = window.Code.PhotoSwipe.getInstance(currentPage.attr('id'));
+//
+//			if (typeof photoSwipeInstance != "undefined" && photoSwipeInstance != null) {
+//				window.Code.PhotoSwipe.detatch(photoSwipeInstance);
+//			}
 
 			//remove all the photos
 			currentPage.find('#my-pet-album-gallery li').remove();
@@ -758,11 +781,12 @@ var Core = {
 						photo.find('a')
 							.data('photo', response.data.photos[i].id)
 							.click(function () {
+								var self = $(this);
 								//confimr delete
-								if (confirm("Are you sure you want to delete this pgoto?")) {
-									Api.del('photo', $(this).data('photo'), function (response) {
+								if (confirm("Are you sure you want to delete this photo?")) {
+									Api.del('photo', self.data('photo'), function (response) {
 										if (response.success)
-											photo.remove();
+											self.remove();
 									});
 								}
 

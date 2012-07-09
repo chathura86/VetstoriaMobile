@@ -45,7 +45,7 @@ var Screens = {
 //			Screens.current.hide();
 
 		//show new screen
-		$.mobile.changePage(target, { reverse : reverse, allowSamePageTransition : false })
+		$.mobile.changePage(target, {reverse : reverse, allowSamePageTransition : false})
 //		target.show();
 
 		//set the cuurent to new screen
@@ -76,6 +76,7 @@ var Cam = {
 				sourceType : Camera.PictureSourceType.CAMERA, 
 				destinationType : Camera.DestinationType.DATA_URL
 			});
+			Screens.show('screen-processing');
 		} catch (e) {
 			alert('Device not supported');
 		}
@@ -91,6 +92,7 @@ var Cam = {
 				sourceType : Camera.PictureSourceType.PHOTOLIBRARY,
 				destinationType : Camera.DestinationType.DATA_URL
 			});
+			Screens.show('screen-processing');
 		} catch (e) {
 			alert('Device not supported');
 		}
@@ -107,9 +109,8 @@ var Cam = {
 				Screens.show('screen-upload-photo');
 		}
 		
-		
 	},
 	error : function (message) {
-		alert('Failed because: ' + message);
+		Screens.show(Screens.stack.pop());
 	}
 }
