@@ -343,13 +343,15 @@ var Core = {
 		//page init bindings
 		$('#screen-upload-photo-clinic').live('pageinit', function () {
 			$('#screen-upload-photo-clinic-save').tap(function () {
-				$(this)
-					.addClass('ui-disabled')
-					.html('Uploading...')
+				
 				var pet = Cam.data.pet;
 				var desc = $('#screen-upload-photoc-description').val();
 				
 				if (pet > 0) {
+					$('#screen-upload-photo-clinic-save')
+						.addClass('ui-disabled')
+						.find('.ui-btn-text').html('Uploading...')
+					
 					Api.post('photo', {pet : pet, photo : Cam.lastPhoto, desc : desc}, function (response) {
 						$('#screen-vet-pet-album').data('pet', {id : pet});
 						Cam.lastPhoto = false;
@@ -357,7 +359,7 @@ var Core = {
 						
 						$('#screen-upload-photo-clinic-save')
 							.removeClass('ui-disabled')
-							.html('Save');
+							.find('.ui-btn-text').html('Save');
 					}, function () {
 						$('#screen-vet-pet-album').data('pet', {id : pet});
 						Cam.lastPhoto = false;
@@ -377,7 +379,7 @@ var Core = {
 			
 			$('#screen-upload-photo-clinic-save')
 							.removeClass('ui-disabled')
-							.html('Save');
+							.find('.ui-btn-text').html('Save');
 			
 			$(this).removeAttr('disabled');
 			
@@ -387,14 +389,15 @@ var Core = {
 		//page init bindings
 		$('#screen-upload-photo').live('pageinit', function () {
 			$('#screen-upload-photo-save').tap(function () {
-				$(this)
-					.addClass('ui-disabled')
-					.html('Uploading...')
 				var album = $('select#screen-upload-photo-select-album').val();
 				var pet = $('select#screen-upload-photo-select-pet').val();
 				var desc = $('#screen-upload-photo-description').val();
 				
 				if (album > 0) {
+					$('#screen-upload-photo-save')
+						.addClass('ui-disabled')
+						.find('.ui-btn-text').html('Uploading...');
+					
 					Api.post('photo', {album : album, photo : Cam.lastPhoto, desc : desc}, function (response) {
 						$('#screen-my-pet').data('pet', pet);
 						$('#screen-my-pet-album').data('album', album);
@@ -402,7 +405,7 @@ var Core = {
 						Screens.show('screen-my-pet-album');
 						$('#screen-upload-photo-save')
 							.removeClass('ui-disabled')
-							.html('Save');
+							.find('.ui-btn-text').html('Save');
 					});
 				} else {
 					alert('Please select an album');
@@ -436,7 +439,7 @@ var Core = {
 			
 			$('#screen-upload-photo-save')
 				.removeClass('ui-disabled')
-				.html('Save');;
+				.find('.ui-btn-text').html('Save');;
 			
 			Screens.current.find('#cam-photo-thumb').attr('src', "data:image/jpeg;base64," + Cam.lastPhoto);
 			

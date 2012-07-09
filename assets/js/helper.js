@@ -108,7 +108,6 @@ var Cam = {
 			default:
 				Screens.show('screen-upload-photo');
 		}
-		
 	},
 	error : function (message) {
 		Screens.show(Screens.stack.pop());
