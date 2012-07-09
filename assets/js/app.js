@@ -288,14 +288,16 @@ var Core = {
 				if (response.success) {
 					for (var i in response.data.photos) {
 						var photo = $('<li><a href="" rel="external"><img src="" alt="" /></a></li>');
-						photo.find('a').attr('href', MEDIA_PATH + response.data.photos[i].file);
+						photo.find('a')
+							.attr('href', MEDIA_PATH + response.data.photos[i].file)
+							.attr('rel', 'external');
 						photo.find('img')
 							.attr('src', Server + '/service/imageresize/?image=' + MEDIA_PATH + response.data.photos[i].file)
 							.attr('alt', response.data.name);
 							
 						photo.appendTo(self.find('#vet-pet-album-gallery'));
 					}
-					var	photoSwipeInstance = self.find("ul.gallery a").photoSwipe({});
+					var	photoSwipeInstance = self.find("ul.gallery a").photoSwipe({ jQueryMobile: true });
 				}
 			}, {pet : pet.id});
 		})
@@ -743,14 +745,16 @@ var Core = {
 				if (response.success) {
 					for (var i in response.data.photos) {
 						var photo = $('<li><a href="" rel="external"><img src="" alt="" /></a></li>');
-						photo.find('a').attr('href', MEDIA_PATH + response.data.photos[i].file);
+						photo.find('a')
+							.attr('href', MEDIA_PATH + response.data.photos[i].file)
+							.attr('rel', 'external');;
 						photo.find('img')
 							.attr('src', Server + '/service/imageresize/?image=' + MEDIA_PATH + response.data.photos[i].file)
 							.attr('alt', response.data.name);
 							
 						photo.appendTo(self.find('#my-pet-album-gallery'));
 					}
-					var	photoSwipeInstance = $("ul.gallery a").photoSwipe({});
+					var	photoSwipeInstance = $("ul.gallery a").photoSwipe({ jQueryMobile: true });
 				}
 			});
 			
