@@ -1,3 +1,4 @@
+var PhotoSwipe = window.Code.PhotoSwipe;
 var Data = {
 	token : null,
 	userType : '',
@@ -297,7 +298,7 @@ var Core = {
 							
 						photo.appendTo(self.find('#vet-pet-album-gallery'));
 					}
-					var	photoSwipeInstance = self.find("ul.gallery a").photoSwipe({ jQueryMobile: true });
+					var	photoSwipeInstance = self.find("ul.gallery a").photoSwipe({ jQueryMobile: true, swipeThreshold: 10 });
 				}
 			}, {pet : pet.id});
 		})
@@ -739,12 +740,13 @@ var Core = {
 			}, {pet : self.data('pet')});
 		});
 		
-		$('#screen-my-pet-album').live('pageshow', function(e){
+		$('#screen-my-pet-album')
+		.live('pageshow', function(e){
 			var self = $(this);
 			Api.get('album', self.data('album'), function (response) {
 				if (response.success) {
 					for (var i in response.data.photos) {
-						var photo = $('<li><a href="" rel="external"><img src="" alt="" /></a></li>');
+						var photo = $('<li><a><img /></a></li>');
 						photo.find('a')
 							.attr('href', MEDIA_PATH + response.data.photos[i].file)
 							.attr('rel', 'external');;
@@ -754,7 +756,10 @@ var Core = {
 							
 						photo.appendTo(self.find('#my-pet-album-gallery'));
 					}
-					var	photoSwipeInstance = $("ul.gallery a").photoSwipe({ jQueryMobile: true });
+					var 
+						currentPage = $(e.target),
+						options = { jQueryMobile: true },
+						photoSwipeInstance = $("ul.gallery a", e.target).photoSwipe(options,  'screen-my-pet-album');
 				}
 			});
 			
@@ -762,12 +767,13 @@ var Core = {
 
 		})
 		.live('pagehide', function(e){
-			var currentPage = $(e.target);
-//			var	photoSwipeInstance = window.Code.PhotoSwipe.getInstance(currentPage.attr('id'));
-//
-//			if (typeof photoSwipeInstance != "undefined" && photoSwipeInstance != null) {
-//				window.Code.PhotoSwipe.detatch(photoSwipeInstance);
-//			}
+			var 
+				currentPage = $(e.target),
+				photoSwipeInstance = PhotoSwipe.getInstance('screen-my-pet-album');
+
+			if (typeof photoSwipeInstance != "undefined" && photoSwipeInstance != null) {
+				PhotoSwipe.detatch(photoSwipeInstance);
+			}
 
 			//remove all the photos
 			currentPage.find('#my-pet-album-gallery li').remove();
