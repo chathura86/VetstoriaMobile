@@ -1,7 +1,11 @@
 var PhotoSwipe;
 var PsOptions = { 
 	jQueryMobile: true, 
-	enableDrag: false
+	enableDrag: false, 
+	preventSlideshow: true, 
+	allowUserZoom: false, 
+	captionAndToolbarAutoHideDelay: 0,
+	imageScaleMethod: 'fitNoUpscale'
 };
 
 var Data = {
