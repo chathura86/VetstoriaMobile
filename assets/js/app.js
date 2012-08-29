@@ -307,7 +307,7 @@ var Core = {
 							
 						photo.appendTo(self.find('#vet-pet-album-gallery'));
 					}
-					var	photoSwipeInstance = self.find("ul.gallery a").photoSwipe({ jQueryMobile: true, enableDrag: false });
+					var	photoSwipeInstance = self.find("ul.gallery a").touchGallery();;
 				}
 			}, {pet : pet.id});
 		})
@@ -777,7 +777,7 @@ var Core = {
 						photo.appendTo(self.find('#my-pet-album-gallery'));
 					}
 					
-					$("ul.gallery a").photoSwipe(PsOptions);
+					$("ul.gallery a").touchGallery();
 				}
 			});
 			
@@ -978,7 +978,7 @@ var Core = {
 function onDeviceReady () {
 	//bind buttons
 	Core.bindEvents();
-	PhotoSwipe = window.Code.PhotoSwipe;
+//	PhotoSwipe = window.Code.PhotoSwipe;
 }
 
 $( document ).bind( "mobileinit", function() {

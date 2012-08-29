@@ -40,3 +40,11 @@ a.ui-li-has-count span span.ui-btn-text{ padding-right:0; position:static; }
 	width: 80px;
 	height: 80px;
 }
+
+#galleryShade{
+	z-index: 10;
+}
+
+#galleryViewport{
+	z-index: 20;
+}
