@@ -1,4 +1,8 @@
 var PhotoSwipe;
+var PsOptions = { 
+	jQueryMobile: true, 
+	enableDrag: false
+};
 
 var Data = {
 	token : null,
@@ -744,11 +748,23 @@ var Core = {
 		$('#screen-my-pet-album').live('pageshow', function(e){
 			var self = $(this);
 			Api.get('album', self.data('album'), function (response) {
+				var cache = $('<div></div>')
+								.attr('id', 'image-cache')
+								.css('display', 'none')
+								.appendTo($('body'))
+				
+				
 				if (response.success) {
 					for (var i in response.data.photos) {
+						var large = 'http://chat.brinkdev.com' + '/service/imagemobile/?image=' + MEDIA_PATH + response.data.photos[i].file;
 						var photo = $('<li><a href="" rel="external"><img src="" alt="" /></a></li>');
+						
+						$('<img/>')
+							.attr('src', large)
+							.appendTo(cache)
+						
 						photo.find('a')
-							.attr('href', 'http://chat.brinkdev.com' + '/service/imagemobile/?image=' + MEDIA_PATH + response.data.photos[i].file)
+							.attr('href', large)
 							.attr('rel', 'external');;
 						photo.find('img')
 							.attr('src', Server + '/service/imageresize/?image=' + MEDIA_PATH + response.data.photos[i].file)
@@ -757,8 +773,7 @@ var Core = {
 						photo.appendTo(self.find('#my-pet-album-gallery'));
 					}
 					
-					console.log(PhotoSwipe);
-					$("ul.gallery a").photoSwipe({ jQueryMobile: true });
+					$("ul.gallery a").photoSwipe(PsOptions);
 				}
 			});
 			
@@ -767,6 +782,7 @@ var Core = {
 		})
 		.live('pagehide', function(e){
 			var currentPage = $(e.target);
+			$('#image-cache').remove();
 //			var	photoSwipeInstance = window.Code.PhotoSwipe.getInstance(currentPage.attr('id'));
 //
 //			if (typeof photoSwipeInstance != "undefined" && photoSwipeInstance != null) {
