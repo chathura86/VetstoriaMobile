@@ -758,7 +758,14 @@ var Core = {
 					}
 					
 					console.log(PhotoSwipe);
-					$("ul.gallery a").photoSwipe({ jQueryMobile: true, enableDrag: false });
+					$("ul.gallery a").photoSwipe({ 
+						jQueryMobile: true, 
+						enableDrag: false, 
+						preventSlideshow: true, 
+						allowUserZoom: false, 
+						captionAndToolbarAutoHideDelay: 0,
+						imageScaleMethod: 'fitNoUpscale'
+					});
 				}
 			});
 			
