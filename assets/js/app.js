@@ -1,3 +1,5 @@
+var PhotoSwipe;
+
 var Data = {
 	token : null,
 	userType : '',
@@ -754,7 +756,9 @@ var Core = {
 							
 						photo.appendTo(self.find('#my-pet-album-gallery'));
 					}
-					var	photoSwipeInstance = $("ul.gallery a").photoSwipe({ jQueryMobile: true, enableDrag: false });
+					
+					console.log(PhotoSwipe);
+					$("ul.gallery a").photoSwipe({ jQueryMobile: true, enableDrag: false });
 				}
 			});
 			
@@ -954,6 +958,7 @@ var Core = {
 function onDeviceReady () {
 	//bind buttons
 	Core.bindEvents();
+	PhotoSwipe = window.Code.PhotoSwipe;
 }
 
 $( document ).bind( "mobileinit", function() {
