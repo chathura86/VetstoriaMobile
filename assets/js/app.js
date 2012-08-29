@@ -297,7 +297,7 @@ var Core = {
 							
 						photo.appendTo(self.find('#vet-pet-album-gallery'));
 					}
-					var	photoSwipeInstance = self.find("ul.gallery a").photoSwipe({ jQueryMobile: true });
+					var	photoSwipeInstance = self.find("ul.gallery a").photoSwipe({ jQueryMobile: true, enableDrag: false });
 				}
 			}, {pet : pet.id});
 		})
@@ -754,7 +754,7 @@ var Core = {
 							
 						photo.appendTo(self.find('#my-pet-album-gallery'));
 					}
-					var	photoSwipeInstance = $("ul.gallery a").touchGallery();
+					var	photoSwipeInstance = $("ul.gallery a").photoSwipe({ jQueryMobile: true, enableDrag: false });
 				}
 			});
 			
