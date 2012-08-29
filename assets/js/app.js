@@ -748,7 +748,7 @@ var Core = {
 					for (var i in response.data.photos) {
 						var photo = $('<li><a href="" rel="external"><img src="" alt="" /></a></li>');
 						photo.find('a')
-							.attr('href', MEDIA_PATH + response.data.photos[i].file)
+							.attr('href', 'http://chat.brinkdev.com' + '/service/imagemobile/?image=' + MEDIA_PATH + response.data.photos[i].file)
 							.attr('rel', 'external');;
 						photo.find('img')
 							.attr('src', Server + '/service/imageresize/?image=' + MEDIA_PATH + response.data.photos[i].file)
@@ -758,14 +758,7 @@ var Core = {
 					}
 					
 					console.log(PhotoSwipe);
-					$("ul.gallery a").photoSwipe({ 
-						jQueryMobile: true, 
-						enableDrag: false, 
-						preventSlideshow: true, 
-						allowUserZoom: false, 
-						captionAndToolbarAutoHideDelay: 0,
-						imageScaleMethod: 'fitNoUpscale'
-					});
+					$("ul.gallery a").photoSwipe({ jQueryMobile: true });
 				}
 			});
 			
